@@ -107,20 +107,20 @@ export default {
               }
             });
           } else if (!isPasswordValid && !isTotpValid) {
-            return new Response(renderPasswordGateHtml("Incorrect master password and 2FA code. Please try again.", TOTP_SECRET), {
+            return new Response(renderPasswordGateHtml("Incorrect master password and 2FA code. Please try again."), {
               headers: noCacheHeaders
             });
           } else if (!isPasswordValid) {
-            return new Response(renderPasswordGateHtml("Incorrect master password. Please try again.", TOTP_SECRET), {
+            return new Response(renderPasswordGateHtml("Incorrect master password. Please try again."), {
               headers: noCacheHeaders
             });
           } else {
-            return new Response(renderPasswordGateHtml("Invalid 2FA authenticator code. Check your authenticator app and try again.", TOTP_SECRET), {
+            return new Response(renderPasswordGateHtml("Invalid 2FA authenticator code. Check your authenticator app and try again."), {
               headers: noCacheHeaders
             });
           }
         } catch (e) {
-          return new Response(renderPasswordGateHtml("Authentication error. Please try again.", TOTP_SECRET), {
+          return new Response(renderPasswordGateHtml("Authentication error. Please try again."), {
             headers: noCacheHeaders
           });
         }
@@ -140,7 +140,7 @@ export default {
 
       // Check Authentication Status
       if (!isAuthenticated) {
-        return new Response(renderPasswordGateHtml("", TOTP_SECRET), { headers: noCacheHeaders });
+        return new Response(renderPasswordGateHtml(""), { headers: noCacheHeaders });
       }
 
       return new Response(renderPortalHtml(), { headers: noCacheHeaders });
@@ -151,11 +151,7 @@ export default {
   }
 };
 
-function renderPasswordGateHtml(errorMessage = "", totpSecret = "7FQRDDC2ZC2XUOX23TYBXCOX6FUC34M2") {
-  const secretClean = (totpSecret || "7FQRDDC2ZC2XUOX23TYBXCOX6FUC34M2").toUpperCase().replace(/\s+/g, '');
-  const formattedSecret = secretClean.match(/.{1,4}/g)?.join(' ') || secretClean;
-  const qrUri = encodeURIComponent("otpauth://totp/ShasaEngineering:krusailor44@gmail.com?secret=" + secretClean + "&issuer=ShasaEngineering");
-  const qrUrl = "https://api.qrserver.com/v1/create-qr-code/?size=200x200&margin=8&data=" + qrUri;
+function renderPasswordGateHtml(errorMessage = "") {
   const errorBanner = errorMessage ? ('<div class="error-msg">⚠️ ' + errorMessage + '</div>') : '';
 
   const html = `<!DOCTYPE html>
@@ -307,61 +303,6 @@ function renderPasswordGateHtml(errorMessage = "", totpSecret = "7FQRDDC2ZC2XUOX
       box-shadow: 0 6px 20px rgba(37, 99, 235, 0.6);
       transform: translateY(-1px);
     }
-    .setup-box {
-      margin-top: 1.5rem;
-      text-align: left;
-      background: rgba(0, 0, 0, 0.35);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 10px;
-      padding: 0.85rem 1.1rem;
-    }
-    .setup-box summary {
-      cursor: pointer;
-      font-size: 0.84rem;
-      color: #60a5fa;
-      font-weight: 600;
-      outline: none;
-      user-select: none;
-    }
-    .setup-box summary:hover { color: #93c5fd; }
-    .setup-content {
-      margin-top: 1rem;
-      padding-top: 0.85rem;
-      border-top: 1px solid rgba(255, 255, 255, 0.06);
-      text-align: center;
-    }
-    .qr-img {
-      width: 170px;
-      height: 170px;
-      border-radius: 10px;
-      background: #fff;
-      padding: 6px;
-      margin: 0.5rem auto 1rem;
-      display: block;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-    }
-    .key-display {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.85rem;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 6px;
-      padding: 0.5rem 0.75rem;
-      color: #34d399;
-      font-weight: 700;
-      word-break: break-all;
-      margin-bottom: 0.75rem;
-      user-select: all;
-    }
-    .setup-steps {
-      text-align: left;
-      font-size: 0.8rem;
-      color: var(--text-muted);
-      line-height: 1.5;
-      margin-bottom: 0.75rem;
-    }
-    .setup-steps ol { padding-left: 1.25rem; }
-    .setup-steps li { margin-bottom: 0.25rem; }
     .back-link {
       margin-top: 1.5rem;
       display: inline-block;
@@ -391,31 +332,12 @@ function renderPasswordGateHtml(errorMessage = "", totpSecret = "7FQRDDC2ZC2XUOX
       <button type="submit">Verify & Unlock Vault &rarr;</button>
     </form>
 
-    <details class="setup-box">
-      <summary>📱 First Time Setup? Show Google Authenticator QR Code</summary>
-      <div class="setup-content">
-        <div class="setup-steps">
-          <ol>
-            <li>Open <strong>Google Authenticator</strong>, <strong>Microsoft Authenticator</strong>, or <strong>Apple Keychain</strong> on your phone.</li>
-            <li>Tap <strong>+</strong> and scan this QR code:</li>
-          </ol>
-        </div>
-        <img class="qr-img" src="<!--QR_URL-->" alt="Google Authenticator QR Code">
-        <div class="setup-steps">Or manually enter this 32-character secret key:</div>
-        <div class="key-display"><!--FORMATTED_SECRET--></div>
-        <div class="setup-steps" style="font-size: 0.75rem; color: #64748b;">Issuer: ShasaEngineering &bull; Account: krusailor44@gmail.com</div>
-      </div>
-    </details>
-
     <a href="/" class="back-link">&larr; Return to Public Website</a>
   </div>
 </body>
 </html>`;
 
-  return html
-    .replace('<!--ERROR_BANNER-->', errorBanner)
-    .replace('<!--QR_URL-->', qrUrl)
-    .replace('<!--FORMATTED_SECRET-->', formattedSecret);
+  return html.replace('<!--ERROR_BANNER-->', errorBanner);
 }
 
 function renderHomeHtml() {
@@ -1198,7 +1120,7 @@ mcp = FastMCP(<span class="str">"Studio5000-Live-MCP"</span>)
                 <div><strong>Operating System:</strong> TrueNAS SCALE (Debian Linux Kernel)</div>
                 <div><strong>Filesystem Architecture:</strong> ZFS Mirrored vdevs with compression</div>
                 <div><strong>Container Engine:</strong> Docker / KVM Hypervisor</div>
-                <div><strong>Local Interface:</strong> 10.0.0.3 (Private Subnet)</div>
+                <div><strong>Network Security:</strong> Isolated Private Subnet &bull; Zero Inbound Ports</div>
               </div>
             </div>
 
@@ -1206,11 +1128,11 @@ mcp = FastMCP(<span class="str">"Studio5000-Live-MCP"</span>)
               <div>
                 <div class="deepdive-header">
                   <div class="deepdive-icon">🍓</div>
-                  <span class="deepdive-badge">EDGE TELEMETRY & DNS</span>
+                  <span class="deepdive-badge">EDGE TELEMETRY & WORKSTATION</span>
                 </div>
-                <h3 class="deepdive-title">Sailor-Pi Edge Gateway (Raspberry Pi)</h3>
+                <h3 class="deepdive-title">Sailor-Pi Edge Gateway & Workstation (Raspberry Pi)</h3>
                 <p class="deepdive-desc">
-                  A dedicated low-power, high-availability ARM64 single-board computer cluster node serving as the network-wide DNS sinkhole, local network filter, and IoT edge orchestrator.
+                  A dedicated low-power, high-availability ARM64 single-board computer cluster node serving as the network-wide DNS sinkhole, local network filter, and remote desktop edge workstation.
                 </p>
                 <div class="deepdive-bullets">
                   <div class="bullet-point">
@@ -1231,14 +1153,14 @@ mcp = FastMCP(<span class="str">"Studio5000-Live-MCP"</span>)
                   </div>
                   <div class="bullet-point">
                     <span class="bullet-icon">▸</span>
-                    <div><strong>Zero-Trust Browser SSH Terminal:</strong> Full remote command-line access to the Raspberry Pi OS environment over port 22, rendered directly inside the web browser via Cloudflare Access with zero exposed WAN ports and multi-factor authentication.</div>
+                    <div><strong>Zero-Trust Remote Desktop (Screenshare):</strong> Full graphical desktop streaming (GUI) rendered directly inside the web browser via Cloudflare Access and VNC, enabling complete control of mouse, keyboard, and Linux desktop workspace without public port forwarding.</div>
                   </div>
                 </div>
               </div>
               <div class="spec-table">
                 <div><strong>Hardware Architecture:</strong> Raspberry Pi ARM64 (Sailor-Pi Node)</div>
-                <div><strong>Primary Service:</strong> Pi-hole FTL Recursive DNS Engine</div>
-                <div><strong>Remote Shell:</strong> In-Browser SSH (Cloudflare Zero Trust, Port 22)</div>
+                <div><strong>Primary Services:</strong> Pi-hole FTL DNS Sinkhole & Edge Workstation</div>
+                <div><strong>Remote Display:</strong> In-Browser GUI Screenshare (Cloudflare VNC)</div>
                 <div><strong>Tunnel Protocol:</strong> Cloudflare Zero Trust mTLS Tunnel</div>
               </div>
             </div>
@@ -1386,7 +1308,7 @@ mcp = FastMCP(<span class="str">"Studio5000-Live-MCP"</span>)
       <div class="footer-links">
         <a href="https://github.com/krusailor44-afk/Studio5000-MCP" target="_blank" rel="noopener">GitHub</a>
         <a href="https://www.linkedin.com/in/sailorkrutarth" target="_blank" rel="noopener">LinkedIn</a>
-        <a href="mailto:krusailor44@gmail.com">Contact</a>
+        <a href="https://www.linkedin.com/in/sailorkrutarth" target="_blank" rel="noopener">Contact (LinkedIn)</a>
         <a href="#about">About</a>
         <a href="/portal">Homelab Vault</a>
       </div>
@@ -1721,9 +1643,9 @@ function renderPortalHtml() {
           <h3 class="card-title">TrueNAS SCALE</h3>
           <p class="card-desc">Full web GUI for primary storage pools, ZFS datasets, snapshot management, and VM virtualization containers.</p>
           <div class="telemetry-box">
-            <span>⚡ Host IP: 10.0.0.3 (Internal)</span>
-            <span>🛡️ Protocol: Cloudflare Tunnel &rarr; HTTPS</span>
-            <span>🔒 Policy: krusailor44@gmail.com OTP (1h)</span>
+            <span>⚡ Cluster Role: Primary Storage Hypervisor</span>
+            <span>🛡️ Tunnel Route: Cloudflare Argo Encrypted Mesh</span>
+            <span>🔒 Access: Multi-Factor Zero Trust Authentication</span>
           </div>
         </div>
         <a href="https://nas.shasaengineering.online" target="_blank" rel="noopener" class="launch-btn">
@@ -1740,9 +1662,9 @@ function renderPortalHtml() {
           <h3 class="card-title">Sailor-Pi / Pi-hole</h3>
           <p class="card-desc">Interactive query logs, real-time ad/telemetry blocking statistics, and edge DNS management dashboard.</p>
           <div class="telemetry-box">
-            <span>⚡ Host: Sailor-Pi Cluster Node</span>
-            <span>🛡️ Protocol: Cloudflare Tunnel &rarr; HTTP</span>
-            <span>🔒 Policy: krusailor44@gmail.com OTP (1h)</span>
+            <span>⚡ Cluster Role: Dedicated Edge DNS Sinkhole</span>
+            <span>🛡️ Tunnel Route: Cloudflare Argo Encrypted Mesh</span>
+            <span>🔒 Access: Multi-Factor Zero Trust Authentication</span>
           </div>
         </div>
         <a href="https://pihole.shasaengineering.online/admin/" target="_blank" rel="noopener" class="launch-btn">
@@ -1759,9 +1681,9 @@ function renderPortalHtml() {
           <h3 class="card-title">Immich Photo Cloud</h3>
           <p class="card-desc">Machine-learning powered media management library, timeline explorer, album curation, and device backup sync.</p>
           <div class="telemetry-box">
-            <span>⚡ Container Port: 10.0.0.3:30041</span>
-            <span>🛡️ Protocol: Cloudflare Tunnel &rarr; HTTP</span>
-            <span>🔒 Policy: krusailor44@gmail.com OTP (7d)</span>
+            <span>⚡ Cluster Role: Dedicated Neural Media Processing</span>
+            <span>🛡️ Tunnel Route: Cloudflare Argo Encrypted Mesh</span>
+            <span>🔒 Access: Multi-Factor Zero Trust Authentication</span>
           </div>
         </div>
         <a href="https://photos.shasaengineering.online" target="_blank" rel="noopener" class="launch-btn">
@@ -1772,19 +1694,19 @@ function renderPortalHtml() {
       <div class="portal-card">
         <div>
           <div class="card-top">
-            <div class="card-icon icon-terminal">💻</div>
+            <div class="card-icon icon-terminal" style="background: rgba(14, 165, 233, 0.15); border: 1px solid rgba(14, 165, 233, 0.3); color: #38bdf8;">🖥️</div>
             <span class="card-status"><span class="pulse-dot"></span> Active</span>
           </div>
-          <h3 class="card-title">Sailor-Pi / Linux Terminal</h3>
-          <p class="card-desc">Direct in-browser SSH shell to the Raspberry Pi OS environment for diagnostics, kernel updates, Docker container management, and hardware GPIO orchestration.</p>
+          <h3 class="card-title">Sailor-Pi / Remote Desktop</h3>
+          <p class="card-desc">Full graphical desktop screensharing (GUI) for the Raspberry Pi. Control mouse, keyboard, applications, and desktop workspace directly in your browser without local VNC clients or open ports.</p>
           <div class="telemetry-box">
-            <span>⚡ Host: Sailor-Pi (Raspberry Pi ARM64)</span>
-            <span>🛡️ Protocol: Cloudflare Tunnel &rarr; SSH (Port 22)</span>
-            <span>🔒 Policy: krusailor44@gmail.com OTP (1h)</span>
+            <span>⚡ Node: Sailor-Pi ARM64 Workstation</span>
+            <span>🛡️ Remote Display: Cloudflare Zero Trust VNC Session</span>
+            <span>🔒 Access: Multi-Factor Zero Trust Authentication</span>
           </div>
         </div>
-        <a href="https://terminal.shasaengineering.online" target="_blank" rel="noopener" class="launch-btn">
-          Launch Web Terminal &rarr;
+        <a href="https://desktop.shasaengineering.online" target="_blank" rel="noopener" class="launch-btn">
+          Launch Remote Desktop &rarr;
         </a>
       </div>
     </div>
