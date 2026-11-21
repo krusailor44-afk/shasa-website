@@ -918,6 +918,277 @@ function renderHomeHtml() {
     .footer-links a { color: var(--text-muted); text-decoration: none; font-size: 0.9rem; transition: color 0.2s; }
     .footer-links a:hover { color: #fff; }
 
+    /* Sailor-Pi Modern Edge Dashboard Card */
+    .pi-dashboard-card {
+      grid-column: 1 / -1;
+      background: #0d1117;
+      border: 1px solid rgba(244, 63, 94, 0.25);
+      border-radius: var(--radius);
+      padding: 2.25rem;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), 0 0 25px rgba(244, 63, 94, 0.06);
+    }
+    .pi-dashboard-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #f43f5e, #fb923c, #38bdf8);
+    }
+    .pi-dashboard-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 1.75rem;
+      padding-bottom: 1.25rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    .pi-header-left {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .pi-avatar-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      background: rgba(244, 63, 94, 0.12);
+      border: 1px solid rgba(244, 63, 94, 0.3);
+      box-shadow: 0 0 15px rgba(244, 63, 94, 0.2);
+    }
+    .pi-title-block h3 {
+      font-size: 1.45rem;
+      font-weight: 800;
+      color: #f8fafc;
+      letter-spacing: -0.015em;
+      margin-bottom: 0.3rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .pi-title-block span {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+    .pi-header-badges {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+    }
+    .pi-live-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.35rem 0.75rem;
+      border-radius: 9999px;
+      background: rgba(52, 211, 153, 0.12);
+      border: 1px solid rgba(52, 211, 153, 0.3);
+      color: #34d399;
+    }
+    .pi-chip-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      padding: 0.35rem 0.65rem;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #94a3b8;
+    }
+
+    /* Pi Telemetry Gauges Grid */
+    .pi-gauges-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .pi-gauge-box {
+      background: #141822;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 10px;
+      padding: 1.1rem 1.25rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.2s ease;
+    }
+    .pi-gauge-box:hover {
+      border-color: rgba(244, 63, 94, 0.35);
+      transform: translateY(-2px);
+    }
+    .pi-gauge-box::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; bottom: 0;
+      width: 3px;
+      background: #f43f5e;
+    }
+    .pi-gauge-box.cyan::before { background: #38bdf8; }
+    .pi-gauge-box.green::before { background: #34d399; }
+    .pi-gauge-box.purple::before { background: #a855f7; }
+    .pi-gauge-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #94a3b8;
+      margin-bottom: 0.4rem;
+    }
+    .pi-gauge-val {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.55rem;
+      font-weight: 800;
+      color: #f8fafc;
+      margin-bottom: 0.3rem;
+    }
+    .pi-gauge-sub {
+      font-size: 0.74rem;
+      color: #94a3b8;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+    .pi-gauge-bar {
+      width: 100%;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 2px;
+      margin-top: 0.6rem;
+      overflow: hidden;
+    }
+    .pi-gauge-bar-fill {
+      height: 100%;
+      border-radius: 2px;
+    }
+
+    /* Pi Dashboard Content Split */
+    .pi-dashboard-split {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 1.75rem;
+      align-items: start;
+    }
+    @media (max-width: 960px) {
+      .pi-dashboard-split { grid-template-columns: 1fr; }
+    }
+
+    /* Pi Features Box */
+    .pi-features-box {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .pi-feature-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.85rem;
+      background: rgba(20, 24, 34, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      border-radius: 10px;
+      padding: 1rem 1.15rem;
+      transition: all 0.2s;
+    }
+    .pi-feature-item:hover {
+      border-color: rgba(56, 189, 248, 0.3);
+      background: rgba(20, 24, 34, 0.95);
+    }
+    .pi-feature-icon {
+      font-size: 1.3rem;
+      line-height: 1;
+      padding: 0.4rem;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      flex-shrink: 0;
+    }
+    .pi-feature-text h5 {
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: #f1f5f9;
+      margin-bottom: 0.25rem;
+    }
+    .pi-feature-text p {
+      font-size: 0.84rem;
+      color: #94a3b8;
+      line-height: 1.5;
+    }
+
+    /* Pi Terminal Mockup */
+    .pi-terminal-mock {
+      background: #090c10;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 10px;
+      overflow: hidden;
+      font-family: 'JetBrains Mono', monospace;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+    }
+    .pi-terminal-titlebar {
+      background: #161b22;
+      padding: 0.55rem 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    .term-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+    .term-dot.red { background: #ff5f56; }
+    .term-dot.yellow { background: #ffbd2e; }
+    .term-dot.green { background: #27c93f; }
+    .term-title {
+      font-size: 0.72rem;
+      color: #94a3b8;
+      margin-left: 0.5rem;
+    }
+    .pi-terminal-body {
+      padding: 1rem 1.15rem;
+      font-size: 0.76rem;
+      line-height: 1.65;
+      color: #cbd5e1;
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+    }
+    .term-cmd { color: #38bdf8; font-weight: 600; }
+    .term-ok { color: #34d399; font-weight: 600; }
+    .term-highlight { color: #fb923c; }
+
+    /* Pi Spec Grid */
+    .pi-specs-strip {
+      margin-top: 1rem;
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 8px;
+      padding: 0.85rem 1rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5rem;
+      color: #94a3b8;
+    }
+    @media (max-width: 600px) {
+      .pi-specs-strip { grid-template-columns: 1fr; }
+    }
+    .pi-specs-strip strong { color: #e2e8f0; }
+
     @media (max-width: 868px) {
       .deepdive-grid { grid-template-columns: 1fr; }
       .split-grid { grid-template-columns: 1fr; }
@@ -1126,44 +1397,136 @@ mcp = FastMCP(<span class="str">"Studio5000-Live-MCP"</span>)
               </div>
             </div>
 
-            <div class="deepdive-card">
-              <div>
-                <div class="deepdive-header">
-                  <div class="deepdive-icon">🍓</div>
-                  <span class="deepdive-badge">EDGE TELEMETRY & WORKSTATION</span>
+            <!-- Sailor-Pi Modern Edge Hardware & Workstation Dashboard -->
+            <div class="deepdive-card pi-dashboard-card">
+              <div class="pi-dashboard-header">
+                <div class="pi-header-left">
+                  <div class="pi-avatar-icon">🍓</div>
+                  <div class="pi-title-block">
+                    <h3>Sailor-Pi Edge Gateway & Workstation</h3>
+                    <span>Cluster Node: <strong>Sailor-Pi.local (ARM64)</strong> &bull; OS: <strong>Debian Bookworm aarch64 (Linux 6.6+)</strong></span>
+                  </div>
                 </div>
-                <h3 class="deepdive-title">Sailor-Pi Edge Gateway & Workstation (Raspberry Pi)</h3>
-                <p class="deepdive-desc">
-                  A dedicated low-power, high-availability ARM64 single-board computer cluster node serving as the network-wide DNS sinkhole, local network filter, and remote desktop edge workstation.
-                </p>
-                <div class="deepdive-bullets">
-                  <div class="bullet-point">
-                    <span class="bullet-icon">▸</span>
-                    <div><strong>Network-Wide Ad & Telemetry Blocking:</strong> Runs Pi-hole FTL engine, intercepting millions of DNS queries across all LAN clients to block trackers before connection.</div>
+                <div class="pi-header-badges">
+                  <span class="pi-live-badge"><span class="pulse-dot"></span> LIVE EDGE NODE</span>
+                  <span class="pi-chip-badge">BCM2712 Quad-Core @ 2.4 GHz</span>
+                  <span class="pi-chip-badge">16 GB LPDDR4X</span>
+                  <span class="pi-chip-badge" style="color: #38bdf8; border-color: rgba(56,189,248,0.3);">⚡ 60 FPS WebRTC</span>
+                </div>
+              </div>
+
+              <!-- Real Hardware Telemetry Gauges -->
+              <div class="pi-gauges-grid">
+                <div class="pi-gauge-box green">
+                  <div class="pi-gauge-label">SoC Core Thermals</div>
+                  <div class="pi-gauge-val" style="color: #34d399;">54.5°C</div>
+                  <div class="pi-gauge-sub">
+                    <span>● Active PWM Cooling</span> &bull; <span>Optimal Zone</span>
                   </div>
-                  <div class="bullet-point">
-                    <span class="bullet-icon">▸</span>
-                    <div><strong>Sub-Millisecond Query Caching:</strong> Maintains in-memory recursive DNS resolution, dramatically speeding up domestic and engineering network response times.</div>
+                  <div class="pi-gauge-bar">
+                    <div class="pi-gauge-bar-fill" style="width: 54.5%; background: linear-gradient(90deg, #34d399, #10b981);"></div>
                   </div>
-                  <div class="bullet-point">
-                    <span class="bullet-icon">▸</span>
-                    <div><strong>Subnet Segregation & IoT Containment:</strong> Isolates telemetry-heavy IoT smart devices into separate local subnets, preventing lateral movement into storage arrays.</div>
+                </div>
+
+                <div class="pi-gauge-box cyan">
+                  <div class="pi-gauge-label">Quad-Core CPU Load</div>
+                  <div class="pi-gauge-val">0.08</div>
+                  <div class="pi-gauge-sub">
+                    <span>1m: 0.08 &bull; 5m: 0.35 &bull; 15m: 0.43</span>
                   </div>
-                  <div class="bullet-point">
-                    <span class="bullet-icon">▸</span>
-                    <div><strong>Out-of-Band Remote Access:</strong> Equipped with an independent Cloudflare Tunnel daemon for secure headless remote maintenance and query log inspection.</div>
+                  <div class="pi-gauge-bar">
+                    <div class="pi-gauge-bar-fill" style="width: 18%; background: linear-gradient(90deg, #38bdf8, #0ea5e9);"></div>
                   </div>
-                  <div class="bullet-point">
-                    <span class="bullet-icon">▸</span>
-                    <div><strong>Zero-Trust Remote Desktop (Screenshare):</strong> Full graphical desktop streaming (GUI) rendered directly inside the web browser via hardware-accelerated WebRTC, enabling complete control of mouse, keyboard, and Linux desktop workspace without public port forwarding.</div>
+                </div>
+
+                <div class="pi-gauge-box purple">
+                  <div class="pi-gauge-label">16 GB LPDDR4X Memory</div>
+                  <div class="pi-gauge-val">2.70 GB <span style="font-size: 0.85rem; color: #94a3b8; font-weight: normal;">/ 16.0 GB</span></div>
+                  <div class="pi-gauge-sub">
+                    <span>15.9% Allocation</span> &bull; <span>13.3 GB Free/Cache</span>
+                  </div>
+                  <div class="pi-gauge-bar">
+                    <div class="pi-gauge-bar-fill" style="width: 15.9%; background: linear-gradient(90deg, #a855f7, #8b5cf6);"></div>
+                  </div>
+                </div>
+
+                <div class="pi-gauge-box">
+                  <div class="pi-gauge-label">High-Speed Storage</div>
+                  <div class="pi-gauge-val">16.8 GB <span style="font-size: 0.85rem; color: #94a3b8; font-weight: normal;">/ 125.3 GB</span></div>
+                  <div class="pi-gauge-sub">
+                    <span>13.4% Disk In-Use</span> &bull; <span>108.5 GB Available</span>
+                  </div>
+                  <div class="pi-gauge-bar">
+                    <div class="pi-gauge-bar-fill" style="width: 13.4%; background: linear-gradient(90deg, #f43f5e, #fb923c);"></div>
                   </div>
                 </div>
               </div>
-              <div class="spec-table">
-                <div><strong>Hardware Architecture:</strong> Raspberry Pi ARM64 (Sailor-Pi Node)</div>
-                <div><strong>Primary Services:</strong> Pi-hole FTL DNS Sinkhole & Edge Workstation</div>
-                <div><strong>Remote Display:</strong> In-Browser GUI Screenshare (Hardware-Accelerated WebRTC)</div>
-                <div><strong>Tunnel Protocol:</strong> Cloudflare Zero Trust mTLS Tunnel</div>
+
+              <!-- Dashboard Body Split: Architecture & Live Terminal Feed -->
+              <div class="pi-dashboard-split">
+                <div class="pi-features-box">
+                  <div class="pi-feature-item">
+                    <div class="pi-feature-icon">🛡️</div>
+                    <div class="pi-feature-text">
+                      <h5>Network-Wide DNS Sinkhole (Pi-hole FTL)</h5>
+                      <p>Intercepts and filters domain resolutions across all LAN and IoT subnets. Uses an in-memory database with sub-millisecond query caching to block ad telemetry and trackers before outbound connection.</p>
+                    </div>
+                  </div>
+
+                  <div class="pi-feature-item">
+                    <div class="pi-feature-icon">🖥️</div>
+                    <div class="pi-feature-text">
+                      <h5>Hardware-Accelerated WebRTC Workstation</h5>
+                      <p>Provides full 60 FPS in-browser GUI desktop access via hardware video encoding. Enables complete remote mouse, keyboard, and Linux workspace control over peer-to-peer WebRTC without open inbound ports.</p>
+                    </div>
+                  </div>
+
+                  <div class="pi-feature-item">
+                    <div class="pi-feature-icon">🔒</div>
+                    <div class="pi-feature-text">
+                      <h5>IoT Subnet Segregation & Firewall Containment</h5>
+                      <p>Acts as the dedicated edge security gateway isolating telemetry-heavy smart home and IoT hardware into dedicated subnets, eliminating lateral movement risk toward enterprise storage.</p>
+                    </div>
+                  </div>
+
+                  <div class="pi-feature-item">
+                    <div class="pi-feature-icon">🌐</div>
+                    <div class="pi-feature-text">
+                      <h5>Outbound-Only Cloudflare Argo mTLS Mesh</h5>
+                      <p>Establishes redundant encrypted tunnel connections to Cloudflare global edge PoPs. All management access is gated behind Zero Trust multi-factor authentication with zero router port forwarding.</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <!-- Live Edge Diagnostic Terminal -->
+                  <div class="pi-terminal-mock">
+                    <div class="pi-terminal-titlebar">
+                      <span class="term-dot red"></span>
+                      <span class="term-dot yellow"></span>
+                      <span class="term-dot green"></span>
+                      <span class="term-title">ksailor@Sailor-Pi: ~ (system-health)</span>
+                    </div>
+                    <div class="pi-terminal-body">
+                      <div><span class="term-cmd">ksailor@Sailor-Pi:~ $</span> systemctl is-active pihole-FTL rpi-connect cloudflared</div>
+                      <div><span class="term-ok">[✓] pihole-FTL.service</span> &mdash; active (running) <span class="term-highlight">[DNS Port 53 Bound]</span></div>
+                      <div><span class="term-ok">[✓] rpi-connect.service</span> &mdash; active (running) <span class="term-highlight">[WebRTC 60fps Stream]</span></div>
+                      <div><span class="term-ok">[✓] cloudflared.service</span> &mdash; active (running) <span class="term-highlight">[mTLS Tunnel dfw]</span></div>
+                      <div><span class="term-ok">[✓] node-exporter</span> &mdash; active (running) <span class="term-highlight">[Prometheus 10s Scrape]</span></div>
+                      <div style="margin-top: 0.35rem; color: #64748b;">// Sub-millisecond recursive DNS sinkhole active &bull; 0 open inbound ports</div>
+                    </div>
+                  </div>
+
+                  <!-- Spec Strip -->
+                  <div class="pi-specs-strip">
+                    <div><strong>Architecture:</strong> ARMv8-A 64-bit (4 Cores)</div>
+                    <div><strong>SoC Clock:</strong> 2.4 GHz Cortex-A76</div>
+                    <div><strong>Memory:</strong> 16 GB LPDDR4X-4267</div>
+                    <div><strong>Cooling:</strong> Active PWM (54.5°C Nominal)</div>
+                    <div><strong>Display Stream:</strong> 60 FPS Hardware WebRTC</div>
+                    <div><strong>Perimeter:</strong> 0 Inbound Open Ports</div>
+                  </div>
+                </div>
               </div>
             </div>
 
