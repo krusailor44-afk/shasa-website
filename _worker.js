@@ -1160,6 +1160,197 @@ function renderHomeHtml() {
       box-shadow: 0 4px 12px rgba(249, 115, 22, 0.3);
     }
 
+    /* Raspberry Pi 5 Telemetry Showcase */
+    .pi5-specs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2.25rem;
+    }
+    .pi5-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.75rem;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .pi5-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #e11d48, #fb7185);
+    }
+    .pi5-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+    .pi5-card-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      background: rgba(225, 29, 72, 0.12);
+      border: 1px solid rgba(225, 29, 72, 0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+    }
+    .pi5-card-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      padding: 0.2rem 0.55rem;
+      border-radius: 6px;
+      background: rgba(225, 29, 72, 0.1);
+      border: 1px solid rgba(225, 29, 72, 0.25);
+      color: #fb7185;
+    }
+    .pi5-card-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #f8fafc;
+      margin-bottom: 0.4rem;
+    }
+    .pi5-card-desc {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+      margin-bottom: 1.25rem;
+    }
+    .pi5-spec-list {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      border-radius: var(--radius-sm);
+      padding: 0.85rem 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      color: #94a3b8;
+    }
+    .pi5-spec-list strong { color: #f1f5f9; }
+
+    /* Pi 5 Diagnostics Matrix Table */
+    .pi5-diag-wrapper {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-bottom: 2rem;
+    }
+    .pi5-diag-header {
+      background: rgba(255, 255, 255, 0.02);
+      padding: 1rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .pi5-diag-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #f8fafc;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .pi5-table-container {
+      overflow-x: auto;
+    }
+    .pi5-diag-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem;
+      text-align: left;
+    }
+    .pi5-diag-table th {
+      background: rgba(0, 0, 0, 0.25);
+      color: #94a3b8;
+      padding: 0.85rem 1.25rem;
+      font-weight: 600;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border-bottom: 1px solid var(--border);
+    }
+    .pi5-diag-table td {
+      padding: 0.85rem 1.25rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      color: #cbd5e1;
+    }
+    .pi5-diag-table tr:hover td {
+      background: rgba(255, 255, 255, 0.02);
+    }
+    .pi5-status-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.2rem 0.55rem;
+      border-radius: 4px;
+      font-size: 0.72rem;
+      font-weight: 600;
+    }
+    .pi5-status-tag.optimal {
+      background: rgba(52, 211, 153, 0.12);
+      border: 1px solid rgba(52, 211, 153, 0.25);
+      color: #34d399;
+    }
+    .pi5-status-tag.active {
+      background: rgba(56, 189, 248, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      color: #38bdf8;
+    }
+    .pi5-status-tag.secure {
+      background: rgba(168, 85, 247, 0.12);
+      border: 1px solid rgba(168, 85, 247, 0.25);
+      color: #c084fc;
+    }
+    .pi5-footer-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1.25rem;
+      background: rgba(0, 0, 0, 0.2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.75rem;
+    }
+    .pi5-footer-text {
+      color: var(--text-muted);
+      font-size: 0.88rem;
+      line-height: 1.5;
+    }
+    .pi5-portal-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: linear-gradient(135deg, #e11d48, #be123c);
+      color: #fff;
+      font-weight: 600;
+      font-size: 0.88rem;
+      padding: 0.65rem 1.25rem;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: all var(--transition);
+      box-shadow: 0 4px 15px rgba(225, 29, 72, 0.25);
+    }
+    .pi5-portal-btn:hover {
+      background: linear-gradient(135deg, #f43f5e, #e11d48);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(225, 29, 72, 0.4);
+    }
+
     @media (max-width: 868px) {
       .deepdive-grid { grid-template-columns: 1fr; }
       .grafana-charts-grid { grid-template-columns: 1fr; }
@@ -1188,6 +1379,7 @@ function renderHomeHtml() {
         <a href="#homelab">Homelab Architecture</a>
         <a href="#skills">Skills</a>
         <a href="#experience">Experience</a>
+        <a href="#pi5">Pi 5 Node</a>
         <a href="/portal" class="portal-nav-btn">🔐 Homelab Portal</a>
       </nav>
     </div>
@@ -1742,6 +1934,189 @@ mcp = FastMCP(<span class="str">"Studio5000-Live-MCP"</span>)
         </div>
       </div>
     </section>
+
+    <section class="section" id="pi5" style="border-top: 1px solid var(--border); background: linear-gradient(180deg, var(--bg-primary) 0%, rgba(225, 29, 72, 0.03) 50%, var(--bg-primary) 100%);">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag" style="color: #fb7185; background: rgba(225, 29, 72, 0.1); border-color: rgba(225, 29, 72, 0.25);">// Hardware Telemetry & Silicon Specifications</span>
+          <h2 class="section-title">Sailor-Pi 5 Edge Cluster Node</h2>
+          <p style="color: var(--text-muted); font-size: 1.05rem; margin-top: 0.5rem; max-width: 820px;">
+            In-depth hardware architecture, silicon benchmarking, and live operational telemetry for the flagship Raspberry Pi 5 (16GB ARM64) node anchoring the edge homelab network.
+          </p>
+        </div>
+
+        <!-- Pi 5 Specs Grid -->
+        <div class="pi5-specs-grid">
+          <div class="pi5-card">
+            <div>
+              <div class="pi5-card-header">
+                <div class="pi5-card-icon">⚡</div>
+                <span class="pi5-card-badge">CORTEX-A76 QUAD-CORE</span>
+              </div>
+              <h3 class="pi5-card-title">Broadcom BCM2712 Silicon</h3>
+              <p class="pi5-card-desc">
+                High-performance 64-bit ARMv8.2-A processor featuring 512KB per-core L2 caches and a 2MB shared L3 cache, delivering up to 3x performance over prior generations.
+              </p>
+            </div>
+            <div class="pi5-spec-list">
+              <div><strong>Core Frequency:</strong> 2.4 GHz Quad-Core</div>
+              <div><strong>Microarchitecture:</strong> ARM Cortex-A76 (ARM64)</div>
+              <div><strong>Active Thermals:</strong> 54.5°C (PWM Fan Regulated)</div>
+              <div><strong>Core Scheduling:</strong> 0.08 / 0.35 / 0.43 Load Avg</div>
+            </div>
+          </div>
+
+          <div class="pi5-card">
+            <div>
+              <div class="pi5-card-header">
+                <div class="pi5-card-icon">🧠</div>
+                <span class="pi5-card-badge">16 GB LPDDR4X-4267</span>
+              </div>
+              <h3 class="pi5-card-title">Unified High-Speed RAM</h3>
+              <p class="pi5-card-desc">
+                Massive 16GB dual-channel memory matrix running at 4267 MT/s. Provides abundant headroom for multi-container microservice workloads and in-memory caches.
+              </p>
+            </div>
+            <div class="pi5-spec-list">
+              <div><strong>Total Capacity:</strong> 16.0 GB (17,005 MB)</div>
+              <div><strong>Active Memory:</strong> 2.70 GB (15.9% in-use)</div>
+              <div><strong>Page Cache / Free:</strong> 14.30 GB Buffer</div>
+              <div><strong>Memory Bus Width:</strong> 32-bit Dual-Channel</div>
+            </div>
+          </div>
+
+          <div class="pi5-card">
+            <div>
+              <div class="pi5-card-header">
+                <div class="pi5-card-icon">💾</div>
+                <span class="pi5-card-badge">128 GB HIGH-SPEED I/O</span>
+              </div>
+              <h3 class="pi5-card-title">High-Speed Storage Matrix</h3>
+              <p class="pi5-card-desc">
+                High-endurance PCIe/NVMe storage array supporting fast sequential throughput, sub-millisecond IOPS, and ext4 POSIX journaling.
+              </p>
+            </div>
+            <div class="pi5-spec-list">
+              <div><strong>Total Disk Space:</strong> 125.3 GB Block Capacity</div>
+              <div><strong>Disk Allocated:</strong> 16.8 GB (13.4% in-use)</div>
+              <div><strong>Free Storage:</strong> 108.5 GB Available</div>
+              <div><strong>Filesystem:</strong> ext4 (POSIX Journaled)</div>
+            </div>
+          </div>
+
+          <div class="pi5-card">
+            <div>
+              <div class="pi5-card-header">
+                <div class="pi5-card-icon">🛡️</div>
+                <span class="pi5-card-badge">CONTAINERS & MESH</span>
+              </div>
+              <h3 class="pi5-card-title">Edge Services & Security</h3>
+              <p class="pi5-card-desc">
+                Orchestrates critical DNS sinkholes, monitoring telemetry, 60 FPS remote desktop streaming, and outbound-only mTLS Zero Trust tunneling.
+              </p>
+            </div>
+            <div class="pi5-spec-list">
+              <div><strong>Active Daemons:</strong> Docker, Prometheus, Pi-hole</div>
+              <div><strong>Remote Desktop:</strong> 60 FPS WebRTC Hardware Sync</div>
+              <div><strong>Mesh Overlay:</strong> Tailscale Wireguard Mesh</div>
+              <div><strong>Inbound Attack Surface:</strong> 0 Open Ports</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pi 5 Live Diagnostics Matrix -->
+        <div class="pi5-diag-wrapper">
+          <div class="pi5-diag-header">
+            <div class="pi5-diag-title">
+              <span>📊 Real-Time Node Operational Diagnostics</span>
+              <span class="pi5-card-badge" style="margin-left: 0.5rem;">Prometheus 10s Scrape Engine</span>
+            </div>
+            <span class="grafana-status-pill"><span class="pulse-dot"></span> Node State: Optimal</span>
+          </div>
+          <div class="pi5-table-container">
+            <table class="pi5-diag-table">
+              <thead>
+                <tr>
+                  <th>Telemetry Vector</th>
+                  <th>Hardware Subsystem</th>
+                  <th>Monitored Metric / Specification</th>
+                  <th>Current Value</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>SoC Model</code></td>
+                  <td>Broadcom BCM2712</td>
+                  <td>ARM Cortex-A76 Quad-Core @ 2.4 GHz (ARMv8.2-A)</td>
+                  <td><code>4 Cores @ 2400 MHz</code></td>
+                  <td><span class="pi5-status-tag optimal">● Nominal</span></td>
+                </tr>
+                <tr>
+                  <td><code>SoC Thermals</code></td>
+                  <td>Active Cooler Heatsink</td>
+                  <td>Package Temperature (Dynamic PWM Regulation)</td>
+                  <td><code>54.5°C</code></td>
+                  <td><span class="pi5-status-tag optimal">● Optimal</span></td>
+                </tr>
+                <tr>
+                  <td><code>Scheduler Load</code></td>
+                  <td>Kernel Task Queue</td>
+                  <td>1-Min, 5-Min, 15-Min Exponential Moving Average</td>
+                  <td><code>0.08, 0.35, 0.43</code></td>
+                  <td><span class="pi5-status-tag optimal">● Low Saturation</span></td>
+                </tr>
+                <tr>
+                  <td><code>RAM Utilization</code></td>
+                  <td>LPDDR4X-4267 Matrix</td>
+                  <td>Total 16,384 MB (Allocated vs Page Cache Buffer)</td>
+                  <td><code>2.70 GB / 16.0 GB (15.9%)</code></td>
+                  <td><span class="pi5-status-tag optimal">● 84.1% Headroom</span></td>
+                </tr>
+                <tr>
+                  <td><code>NVMe Storage</code></td>
+                  <td>PCIe Storage Array</td>
+                  <td>Root Block Device Allocation (ext4 Journaling)</td>
+                  <td><code>16.8 GB / 125.3 GB (13.4%)</code></td>
+                  <td><span class="pi5-status-tag optimal">● Healthy</span></td>
+                </tr>
+                <tr>
+                  <td><code>Container Runtime</code></td>
+                  <td>Docker Engine</td>
+                  <td>Active Container Stacks (Prometheus, Grafana, Pi-hole)</td>
+                  <td><code>Containers Running</code></td>
+                  <td><span class="pi5-status-tag active">● Online</span></td>
+                </tr>
+                <tr>
+                  <td><code>Remote Workstation</code></td>
+                  <td>Raspberry Pi Connect</td>
+                  <td>In-Browser 60 FPS Hardware-Accelerated WebRTC</td>
+                  <td><code>Encrypted P2P Session</code></td>
+                  <td><span class="pi5-status-tag active">● Ready</span></td>
+                </tr>
+                <tr>
+                  <td><code>Perimeter Ingress</code></td>
+                  <td>Cloudflare Argo Tunnel</td>
+                  <td>Outbound mTLS Zero Trust Edge Tunnel</td>
+                  <td><code>Zero Inbound Ports</code></td>
+                  <td><span class="pi5-status-tag secure">🔒 Air-Gapped</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Footer Action Strip -->
+        <div class="pi5-footer-bar">
+          <div class="pi5-footer-text">
+            <strong>Authenticated Management:</strong> Full access to the Raspberry Pi 5 command line, remote desktop screen share, Grafana dashboards, and Pi-hole admin console is protected inside the multi-factor Homelab Vault.
+          </div>
+          <a href="/portal" class="pi5-portal-btn">
+            🔐 Launch Homelab Vault &rarr;
+          </a>
+        </div>
+      </div>
+    </section>
   </main>
 
   <footer>
@@ -1754,6 +2129,7 @@ mcp = FastMCP(<span class="str">"Studio5000-Live-MCP"</span>)
         <a href="https://www.linkedin.com/in/sailorkrutarth" target="_blank" rel="noopener">LinkedIn</a>
         <a href="https://www.linkedin.com/in/sailorkrutarth" target="_blank" rel="noopener">Contact (LinkedIn)</a>
         <a href="#about">About</a>
+        <a href="#pi5">Pi 5 Node</a>
         <a href="/portal">Homelab Vault</a>
       </div>
     </div>
