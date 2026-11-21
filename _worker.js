@@ -1740,7 +1740,7 @@ function renderPortalHtml() {
             <span>🔒 Policy: krusailor44@gmail.com OTP (1h)</span>
           </div>
         </div>
-        <a href="https://pihole.shasaengineering.online" target="_blank" rel="noopener" class="launch-btn">
+        <a href="https://pihole.shasaengineering.online/admin/" target="_blank" rel="noopener" class="launch-btn">
           Launch Pi-hole Dashboard &rarr;
         </a>
       </div>
