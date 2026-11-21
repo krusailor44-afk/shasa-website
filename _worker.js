@@ -918,442 +918,8 @@ function renderHomeHtml() {
     .footer-links a { color: var(--text-muted); text-decoration: none; font-size: 0.9rem; transition: color 0.2s; }
     .footer-links a:hover { color: #fff; }
 
-    /* Grafana Live Dashboard Preview */
-    .grafana-preview-panel {
-      margin-top: 2.25rem;
-      background: #111217;
-      border: 1px solid rgba(249, 115, 22, 0.25);
-      border-radius: var(--radius);
-      overflow: hidden;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), 0 0 20px rgba(249, 115, 22, 0.05);
-    }
-    .grafana-header-bar {
-      background: #181b1f;
-      padding: 0.9rem 1.5rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 1rem;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-    }
-    .grafana-header-left {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-    }
-    .grafana-logo-badge {
-      font-size: 1.25rem;
-      display: flex;
-      align-items: center;
-    }
-    .grafana-title-wrap h4 {
-      font-size: 1.05rem;
-      font-weight: 700;
-      color: #f8fafc;
-      margin: 0;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-    .grafana-title-wrap span {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.75rem;
-      color: var(--text-muted);
-    }
-    .grafana-header-right {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-    }
-    .grafana-status-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.72rem;
-      padding: 0.25rem 0.6rem;
-      border-radius: 9999px;
-      background: rgba(52, 211, 153, 0.12);
-      border: 1px solid rgba(52, 211, 153, 0.25);
-      color: #34d399;
-    }
-    .grafana-launch-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: #f97316;
-      background: rgba(249, 115, 22, 0.12);
-      border: 1px solid rgba(249, 115, 22, 0.3);
-      padding: 0.35rem 0.8rem;
-      border-radius: 6px;
-      text-decoration: none;
-      transition: all var(--transition);
-    }
-    .grafana-launch-link:hover {
-      background: rgba(249, 115, 22, 0.25);
-      color: #fdba74;
-      transform: translateY(-1px);
-    }
-    .grafana-body {
-      padding: 1.5rem;
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
-    }
-    .grafana-kpi-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 1rem;
-    }
-    .grafana-stat-card {
-      background: #181b1f;
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      border-radius: 8px;
-      padding: 1rem 1.25rem;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      position: relative;
-      overflow: hidden;
-    }
-    .grafana-stat-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; bottom: 0;
-      width: 3px;
-      background: #f97316;
-    }
-    .grafana-stat-card.cyan::before { background: #38bdf8; }
-    .grafana-stat-card.green::before { background: #34d399; }
-    .grafana-stat-card.purple::before { background: #a855f7; }
-    .grafana-stat-title {
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: #94a3b8;
-      margin-bottom: 0.35rem;
-      font-family: 'JetBrains Mono', monospace;
-    }
-    .grafana-stat-value {
-      font-size: 1.5rem;
-      font-weight: 800;
-      color: #f8fafc;
-      font-family: 'JetBrains Mono', monospace;
-      margin-bottom: 0.25rem;
-    }
-    .grafana-stat-desc {
-      font-size: 0.72rem;
-      color: #94a3b8;
-      display: flex;
-      align-items: center;
-      gap: 0.35rem;
-    }
-    .grafana-stat-progress {
-      width: 100%;
-      height: 4px;
-      background: rgba(255, 255, 255, 0.08);
-      border-radius: 2px;
-      margin-top: 0.5rem;
-      overflow: hidden;
-    }
-    .grafana-stat-fill {
-      height: 100%;
-      border-radius: 2px;
-    }
-    .grafana-charts-grid {
-      display: grid;
-      grid-template-columns: 2fr 1fr;
-      gap: 1.25rem;
-    }
-    .grafana-chart-panel {
-      background: #181b1f;
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      border-radius: 8px;
-      padding: 1.25rem;
-      display: flex;
-      flex-direction: column;
-    }
-    .grafana-panel-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 1rem;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-      padding-bottom: 0.5rem;
-    }
-    .grafana-panel-title {
-      font-size: 0.85rem;
-      font-weight: 700;
-      color: #e2e8f0;
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-    }
-    .grafana-panel-legend {
-      display: flex;
-      gap: 0.75rem;
-      font-size: 0.7rem;
-      font-family: 'JetBrains Mono', monospace;
-    }
-    .legend-item { display: flex; align-items: center; gap: 0.3rem; }
-    .legend-dot { width: 8px; height: 8px; border-radius: 50%; }
-    .grafana-svg-chart {
-      width: 100%;
-      height: 180px;
-    }
-    .grafana-service-list {
-      display: flex;
-      flex-direction: column;
-      gap: 0.6rem;
-    }
-    .grafana-service-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: rgba(0, 0, 0, 0.2);
-      padding: 0.5rem 0.75rem;
-      border-radius: 6px;
-      font-size: 0.78rem;
-    }
-    .grafana-service-name {
-      font-family: 'JetBrains Mono', monospace;
-      color: #e2e8f0;
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-    }
-    .grafana-footer-cta {
-      background: rgba(0, 0, 0, 0.25);
-      padding: 0.9rem 1.25rem;
-      border-radius: 6px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 1rem;
-      border: 1px solid rgba(255, 255, 255, 0.04);
-    }
-    .grafana-footer-text {
-      font-size: 0.82rem;
-      color: #94a3b8;
-    }
-    .grafana-footer-btn {
-      font-size: 0.82rem;
-      font-weight: 600;
-      color: #fff;
-      background: #f97316;
-      border: none;
-      padding: 0.5rem 1rem;
-      border-radius: 6px;
-      text-decoration: none;
-      transition: all var(--transition);
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-    }
-    .grafana-footer-btn:hover {
-      background: #ea580c;
-      transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(249, 115, 22, 0.3);
-    }
-
-    /* Raspberry Pi 5 Telemetry Showcase */
-    .pi5-specs-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.5rem;
-      margin-bottom: 2.25rem;
-    }
-    .pi5-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 1.75rem;
-      position: relative;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-    .pi5-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 3px;
-      background: linear-gradient(90deg, #e11d48, #fb7185);
-    }
-    .pi5-card-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 1rem;
-    }
-    .pi5-card-icon {
-      width: 44px;
-      height: 44px;
-      border-radius: 10px;
-      background: rgba(225, 29, 72, 0.12);
-      border: 1px solid rgba(225, 29, 72, 0.25);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.4rem;
-    }
-    .pi5-card-badge {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.72rem;
-      padding: 0.2rem 0.55rem;
-      border-radius: 6px;
-      background: rgba(225, 29, 72, 0.1);
-      border: 1px solid rgba(225, 29, 72, 0.25);
-      color: #fb7185;
-    }
-    .pi5-card-title {
-      font-size: 1.15rem;
-      font-weight: 700;
-      color: #f8fafc;
-      margin-bottom: 0.4rem;
-    }
-    .pi5-card-desc {
-      font-size: 0.88rem;
-      color: var(--text-muted);
-      line-height: 1.5;
-      margin-bottom: 1.25rem;
-    }
-    .pi5-spec-list {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.78rem;
-      background: rgba(0, 0, 0, 0.35);
-      border: 1px solid rgba(255, 255, 255, 0.04);
-      border-radius: var(--radius-sm);
-      padding: 0.85rem 1rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.4rem;
-      color: #94a3b8;
-    }
-    .pi5-spec-list strong { color: #f1f5f9; }
-
-    /* Pi 5 Diagnostics Matrix Table */
-    .pi5-diag-wrapper {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      overflow: hidden;
-      margin-bottom: 2rem;
-    }
-    .pi5-diag-header {
-      background: rgba(255, 255, 255, 0.02);
-      padding: 1rem 1.5rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 1rem;
-      border-bottom: 1px solid var(--border);
-    }
-    .pi5-diag-title {
-      font-size: 0.95rem;
-      font-weight: 700;
-      color: #f8fafc;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-    .pi5-table-container {
-      overflow-x: auto;
-    }
-    .pi5-diag-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.82rem;
-      text-align: left;
-    }
-    .pi5-diag-table th {
-      background: rgba(0, 0, 0, 0.25);
-      color: #94a3b8;
-      padding: 0.85rem 1.25rem;
-      font-weight: 600;
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      border-bottom: 1px solid var(--border);
-    }
-    .pi5-diag-table td {
-      padding: 0.85rem 1.25rem;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-      color: #cbd5e1;
-    }
-    .pi5-diag-table tr:hover td {
-      background: rgba(255, 255, 255, 0.02);
-    }
-    .pi5-status-tag {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.35rem;
-      padding: 0.2rem 0.55rem;
-      border-radius: 4px;
-      font-size: 0.72rem;
-      font-weight: 600;
-    }
-    .pi5-status-tag.optimal {
-      background: rgba(52, 211, 153, 0.12);
-      border: 1px solid rgba(52, 211, 153, 0.25);
-      color: #34d399;
-    }
-    .pi5-status-tag.active {
-      background: rgba(56, 189, 248, 0.12);
-      border: 1px solid rgba(56, 189, 248, 0.25);
-      color: #38bdf8;
-    }
-    .pi5-status-tag.secure {
-      background: rgba(168, 85, 247, 0.12);
-      border: 1px solid rgba(168, 85, 247, 0.25);
-      color: #c084fc;
-    }
-    .pi5-footer-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 1.25rem;
-      background: rgba(0, 0, 0, 0.2);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 1.25rem 1.75rem;
-    }
-    .pi5-footer-text {
-      color: var(--text-muted);
-      font-size: 0.88rem;
-      line-height: 1.5;
-    }
-    .pi5-portal-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      background: linear-gradient(135deg, #e11d48, #be123c);
-      color: #fff;
-      font-weight: 600;
-      font-size: 0.88rem;
-      padding: 0.65rem 1.25rem;
-      border-radius: 8px;
-      text-decoration: none;
-      transition: all var(--transition);
-      box-shadow: 0 4px 15px rgba(225, 29, 72, 0.25);
-    }
-    .pi5-portal-btn:hover {
-      background: linear-gradient(135deg, #f43f5e, #e11d48);
-      transform: translateY(-1px);
-      box-shadow: 0 6px 20px rgba(225, 29, 72, 0.4);
-    }
-
     @media (max-width: 868px) {
       .deepdive-grid { grid-template-columns: 1fr; }
-      .grafana-charts-grid { grid-template-columns: 1fr; }
       .split-grid { grid-template-columns: 1fr; }
       .hero { padding: 4rem 0 2.5rem; }
       .mcp-showcase-box { padding: 1.75rem; }
@@ -1639,168 +1205,6 @@ mcp = FastMCP(<span class="str">"Studio5000-Live-MCP"</span>)
             </div>
           </div>
 
-          <!-- Grafana Live Telemetry Dashboard Preview -->
-          <div class="grafana-preview-panel">
-            <div class="grafana-header-bar">
-              <div class="grafana-header-left">
-                <div class="grafana-logo-badge">📊</div>
-                <div class="grafana-title-wrap">
-                  <h4>Homelab Cluster Observability & Telemetry</h4>
-                  <span>Dashboard: <strong>Production-Cluster-Overview</strong> &bull; Engine: <strong>Prometheus TSDB (10s Scrape)</strong></span>
-                </div>
-              </div>
-              <div class="grafana-header-right">
-                <span class="grafana-status-pill"><span class="pulse-dot"></span> System Normal</span>
-                <a href="https://grafana.shasaengineering.online" target="_blank" rel="noopener" class="grafana-launch-link">
-                  Open Grafana Station &rarr;
-                </a>
-              </div>
-            </div>
-
-            <div class="grafana-body">
-              <!-- KPI Metric Cards Grid -->
-              <div class="grafana-kpi-grid">
-                <div class="grafana-stat-card">
-                  <div class="grafana-stat-title">ZFS Primary Pool (ParentDrive)</div>
-                  <div class="grafana-stat-value">1.78 TB <span style="font-size: 0.85rem; color: #94a3b8; font-weight: normal;">/ 6.00 TB</span></div>
-                  <div class="grafana-stat-desc">
-                    <span style="color: #34d399;">● Healthy</span> &bull; 0 Scrub Errors &bull; 2.0% Frag
-                  </div>
-                  <div class="grafana-stat-progress">
-                    <div class="grafana-stat-fill" style="width: 29.7%; background: linear-gradient(90deg, #f97316, #fb923c);"></div>
-                  </div>
-                </div>
-
-                <div class="grafana-stat-card cyan">
-                  <div class="grafana-stat-title">NVMe Container Pool (Apps)</div>
-                  <div class="grafana-stat-value">54.3 GB <span style="font-size: 0.85rem; color: #94a3b8; font-weight: normal;">/ 256 GB</span></div>
-                  <div class="grafana-stat-desc">
-                    <span style="color: #34d399;">● Healthy</span> &bull; High-IOPS SSD Storage
-                  </div>
-                  <div class="grafana-stat-progress">
-                    <div class="grafana-stat-fill" style="width: 21.4%; background: linear-gradient(90deg, #38bdf8, #0ea5e9);"></div>
-                  </div>
-                </div>
-
-                <div class="grafana-stat-card green">
-                  <div class="grafana-stat-title">Sailor-Pi Core Thermals</div>
-                  <div class="grafana-stat-value" style="color: #34d399;">54.5°C</div>
-                  <div class="grafana-stat-desc">
-                    <span>Load: 0.08, 0.35, 0.43</span> &bull; <span>Optimal Zone</span>
-                  </div>
-                  <div class="grafana-stat-progress">
-                    <div class="grafana-stat-fill" style="width: 54.5%; background: linear-gradient(90deg, #34d399, #10b981);"></div>
-                  </div>
-                </div>
-
-                <div class="grafana-stat-card purple">
-                  <div class="grafana-stat-title">ARM64 Memory Utilization</div>
-                  <div class="grafana-stat-value">2.70 GB <span style="font-size: 0.85rem; color: #94a3b8; font-weight: normal;">/ 16.0 GB</span></div>
-                  <div class="grafana-stat-desc">
-                    <span>15.9% In-Use</span> &bull; <span>13.3 GB Free / Cache</span>
-                  </div>
-                  <div class="grafana-stat-progress">
-                    <div class="grafana-stat-fill" style="width: 15.9%; background: linear-gradient(90deg, #a855f7, #8b5cf6);"></div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Time Series & Services Breakdown -->
-              <div class="grafana-charts-grid">
-                <div class="grafana-chart-panel">
-                  <div class="grafana-panel-header">
-                    <div class="grafana-panel-title">
-                      <span>📈 24-Hour Telemetry History & Thermal Curve</span>
-                    </div>
-                    <div class="grafana-panel-legend">
-                      <div class="legend-item"><span class="legend-dot" style="background: #f97316;"></span> SoC Temp (°C)</div>
-                      <div class="legend-item"><span class="legend-dot" style="background: #38bdf8;"></span> CPU Load (%)</div>
-                      <div class="legend-item"><span class="legend-dot" style="background: #34d399;"></span> ZFS ARC Hit (%)</div>
-                    </div>
-                  </div>
-                  <svg class="grafana-svg-chart" viewBox="0 0 680 180" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <defs>
-                      <linearGradient id="tempGrad" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stop-color="#f97316" stop-opacity="0.35"/>
-                        <stop offset="100%" stop-color="#f97316" stop-opacity="0.0"/>
-                      </linearGradient>
-                      <linearGradient id="loadGrad" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.3"/>
-                        <stop offset="100%" stop-color="#38bdf8" stop-opacity="0.0"/>
-                      </linearGradient>
-                    </defs>
-                    <line x1="40" y1="30" x2="660" y2="30" stroke="rgba(255,255,255,0.05)" stroke-dasharray="3 3"/>
-                    <line x1="40" y1="70" x2="660" y2="70" stroke="rgba(255,255,255,0.05)" stroke-dasharray="3 3"/>
-                    <line x1="40" y1="110" x2="660" y2="110" stroke="rgba(255,255,255,0.05)" stroke-dasharray="3 3"/>
-                    <line x1="40" y1="150" x2="660" y2="150" stroke="rgba(255,255,255,0.08)"/>
-
-                    <text x="32" y="34" fill="#64748b" font-size="10" font-family="'JetBrains Mono', monospace" text-anchor="end">100%</text>
-                    <text x="32" y="74" fill="#64748b" font-size="10" font-family="'JetBrains Mono', monospace" text-anchor="end">75°/75%</text>
-                    <text x="32" y="114" fill="#64748b" font-size="10" font-family="'JetBrains Mono', monospace" text-anchor="end">50°/50%</text>
-                    <text x="32" y="154" fill="#64748b" font-size="10" font-family="'JetBrains Mono', monospace" text-anchor="end">0</text>
-
-                    <!-- ZFS ARC Hit Area (Green 98%) -->
-                    <path d="M50 35 L150 36 L250 34 L350 35 L450 36 L550 34 L650 35" stroke="#34d399" stroke-width="2" fill="none"/>
-
-                    <!-- Temp Area (Orange ~54C) -->
-                    <path d="M50 102 C100 104, 130 98, 180 100 C230 102, 280 95, 330 96 C380 97, 430 103, 480 101 C530 99, 580 97, 650 99 L650 150 L50 150 Z" fill="url(#tempGrad)"/>
-                    <path d="M50 102 C100 104, 130 98, 180 100 C230 102, 280 95, 330 96 C380 97, 430 103, 480 101 C530 99, 580 97, 650 99" stroke="#f97316" stroke-width="2.5" fill="none"/>
-
-                    <!-- CPU Load Area (Cyan 10-25%) -->
-                    <path d="M50 142 C90 140, 120 132, 160 135 C200 138, 240 120, 280 125 C320 130, 360 144, 400 139 C450 134, 500 128, 550 136 C600 144, 630 141, 650 140 L650 150 L50 150 Z" fill="url(#loadGrad)"/>
-                    <path d="M50 142 C90 140, 120 132, 160 135 C200 138, 240 120, 280 125 C320 130, 360 144, 400 139 C450 134, 500 128, 550 136 C600 144, 630 141, 650 140" stroke="#38bdf8" stroke-width="2" fill="none"/>
-
-                    <text x="50" y="168" fill="#64748b" font-size="10" font-family="'JetBrains Mono', monospace">00:00</text>
-                    <text x="170" y="168" fill="#64748b" font-size="10" font-family="'JetBrains Mono', monospace">04:00</text>
-                    <text x="290" y="168" fill="#64748b" font-size="10" font-family="'JetBrains Mono', monospace">08:00</text>
-                    <text x="410" y="168" fill="#64748b" font-size="10" font-family="'JetBrains Mono', monospace">12:00</text>
-                    <text x="530" y="168" fill="#64748b" font-size="10" font-family="'JetBrains Mono', monospace">16:00</text>
-                    <text x="640" y="168" fill="#64748b" font-size="10" font-family="'JetBrains Mono', monospace">Now</text>
-                  </svg>
-                </div>
-
-                <div class="grafana-chart-panel">
-                  <div class="grafana-panel-header">
-                    <div class="grafana-panel-title">
-                      <span>⚡ Monitored Daemons & Targets</span>
-                    </div>
-                  </div>
-                  <div class="grafana-service-list">
-                    <div class="grafana-service-row">
-                      <div class="grafana-service-name"><span>●</span> Pi-hole FTL DNS</div>
-                      <span style="color: #34d399; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem;">Active</span>
-                    </div>
-                    <div class="grafana-service-row">
-                      <div class="grafana-service-name"><span>●</span> TrueNAS SCALE Hypervisor</div>
-                      <span style="color: #34d399; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem;">Online</span>
-                    </div>
-                    <div class="grafana-service-row">
-                      <div class="grafana-service-name"><span>●</span> Immich ML Neural Core</div>
-                      <span style="color: #34d399; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem;">Running</span>
-                    </div>
-                    <div class="grafana-service-row">
-                      <div class="grafana-service-name"><span>●</span> Prometheus TSDB</div>
-                      <span style="color: #34d399; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem;">10s Polling</span>
-                    </div>
-                    <div class="grafana-service-row">
-                      <div class="grafana-service-name"><span>●</span> Cloudflare Argo Tunnel</div>
-                      <span style="color: #38bdf8; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem;">Encrypted</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Footer Access Strip -->
-              <div class="grafana-footer-cta">
-                <div class="grafana-footer-text">
-                  🔒 <strong>Zero Public Inbound Ports:</strong> Metrics scraped continuously over encrypted internal daemons. Dashboards accessible with multi-factor Zero Trust authentication.
-                </div>
-                <a href="https://grafana.shasaengineering.online" target="_blank" rel="noopener" class="grafana-footer-btn">
-                  Launch Grafana Station &rarr;
-                </a>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </section>
@@ -2427,6 +1831,443 @@ function renderPortalHtml() {
       font-weight: 700;
       color: #f1f5f9;
     }
+    /* Grafana Live Dashboard Preview */
+    .grafana-preview-panel {
+      margin-top: 2.25rem;
+      background: #111217;
+      border: 1px solid rgba(249, 115, 22, 0.25);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), 0 0 20px rgba(249, 115, 22, 0.05);
+    }
+    .grafana-header-bar {
+      background: #181b1f;
+      padding: 0.9rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    .grafana-header-left {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .grafana-logo-badge {
+      font-size: 1.25rem;
+      display: flex;
+      align-items: center;
+    }
+    .grafana-title-wrap h4 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #f8fafc;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .grafana-title-wrap span {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+    .grafana-header-right {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .grafana-status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      padding: 0.25rem 0.6rem;
+      border-radius: 9999px;
+      background: rgba(52, 211, 153, 0.12);
+      border: 1px solid rgba(52, 211, 153, 0.25);
+      color: #34d399;
+    }
+    .grafana-launch-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #f97316;
+      background: rgba(249, 115, 22, 0.12);
+      border: 1px solid rgba(249, 115, 22, 0.3);
+      padding: 0.35rem 0.8rem;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: all var(--transition);
+    }
+    .grafana-launch-link:hover {
+      background: rgba(249, 115, 22, 0.25);
+      color: #fdba74;
+      transform: translateY(-1px);
+    }
+    .grafana-body {
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+    .grafana-kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+    }
+    .grafana-stat-card {
+      background: #181b1f;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+    }
+    .grafana-stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; bottom: 0;
+      width: 3px;
+      background: #f97316;
+    }
+    .grafana-stat-card.cyan::before { background: #38bdf8; }
+    .grafana-stat-card.green::before { background: #34d399; }
+    .grafana-stat-card.purple::before { background: #a855f7; }
+    .grafana-stat-title {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #94a3b8;
+      margin-bottom: 0.35rem;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .grafana-stat-value {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #f8fafc;
+      font-family: 'JetBrains Mono', monospace;
+      margin-bottom: 0.25rem;
+    }
+    .grafana-stat-desc {
+      font-size: 0.72rem;
+      color: #94a3b8;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+    .grafana-stat-progress {
+      width: 100%;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 2px;
+      margin-top: 0.5rem;
+      overflow: hidden;
+    }
+    .grafana-stat-fill {
+      height: 100%;
+      border-radius: 2px;
+    }
+    .grafana-charts-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 1.25rem;
+    }
+    .grafana-chart-panel {
+      background: #181b1f;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 8px;
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+    }
+    .grafana-panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      padding-bottom: 0.5rem;
+    }
+    .grafana-panel-title {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #e2e8f0;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .grafana-panel-legend {
+      display: flex;
+      gap: 0.75rem;
+      font-size: 0.7rem;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .legend-item { display: flex; align-items: center; gap: 0.3rem; }
+    .legend-dot { width: 8px; height: 8px; border-radius: 50%; }
+    .grafana-svg-chart {
+      width: 100%;
+      height: 180px;
+    }
+    .grafana-service-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+    .grafana-service-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(0, 0, 0, 0.2);
+      padding: 0.5rem 0.75rem;
+      border-radius: 6px;
+      font-size: 0.78rem;
+    }
+    .grafana-service-name {
+      font-family: 'JetBrains Mono', monospace;
+      color: #e2e8f0;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .grafana-footer-cta {
+      background: rgba(0, 0, 0, 0.25);
+      padding: 0.9rem 1.25rem;
+      border-radius: 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      border: 1px solid rgba(255, 255, 255, 0.04);
+    }
+    .grafana-footer-text {
+      font-size: 0.82rem;
+      color: #94a3b8;
+    }
+    .grafana-footer-btn {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: #fff;
+      background: #f97316;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: all var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .grafana-footer-btn:hover {
+      background: #ea580c;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(249, 115, 22, 0.3);
+    }
+
+    /* Raspberry Pi 5 Telemetry Showcase */
+    .pi5-specs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2.25rem;
+    }
+    .pi5-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.75rem;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .pi5-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #e11d48, #fb7185);
+    }
+    .pi5-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+    .pi5-card-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      background: rgba(225, 29, 72, 0.12);
+      border: 1px solid rgba(225, 29, 72, 0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+    }
+    .pi5-card-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      padding: 0.2rem 0.55rem;
+      border-radius: 6px;
+      background: rgba(225, 29, 72, 0.1);
+      border: 1px solid rgba(225, 29, 72, 0.25);
+      color: #fb7185;
+    }
+    .pi5-card-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #f8fafc;
+      margin-bottom: 0.4rem;
+    }
+    .pi5-card-desc {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+      margin-bottom: 1.25rem;
+    }
+    .pi5-spec-list {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      border-radius: var(--radius-sm);
+      padding: 0.85rem 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      color: #94a3b8;
+    }
+    .pi5-spec-list strong { color: #f1f5f9; }
+
+    /* Pi 5 Diagnostics Matrix Table */
+    .pi5-diag-wrapper {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-bottom: 2rem;
+    }
+    .pi5-diag-header {
+      background: rgba(255, 255, 255, 0.02);
+      padding: 1rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .pi5-diag-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #f8fafc;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .pi5-table-container {
+      overflow-x: auto;
+    }
+    .pi5-diag-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem;
+      text-align: left;
+    }
+    .pi5-diag-table th {
+      background: rgba(0, 0, 0, 0.25);
+      color: #94a3b8;
+      padding: 0.85rem 1.25rem;
+      font-weight: 600;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border-bottom: 1px solid var(--border);
+    }
+    .pi5-diag-table td {
+      padding: 0.85rem 1.25rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      color: #cbd5e1;
+    }
+    .pi5-diag-table tr:hover td {
+      background: rgba(255, 255, 255, 0.02);
+    }
+    .pi5-status-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.2rem 0.55rem;
+      border-radius: 4px;
+      font-size: 0.72rem;
+      font-weight: 600;
+    }
+    .pi5-status-tag.optimal {
+      background: rgba(52, 211, 153, 0.12);
+      border: 1px solid rgba(52, 211, 153, 0.25);
+      color: #34d399;
+    }
+    .pi5-status-tag.active {
+      background: rgba(56, 189, 248, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      color: #38bdf8;
+    }
+    .pi5-status-tag.secure {
+      background: rgba(168, 85, 247, 0.12);
+      border: 1px solid rgba(168, 85, 247, 0.25);
+      color: #c084fc;
+    }
+    .pi5-footer-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1.25rem;
+      background: rgba(0, 0, 0, 0.2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.75rem;
+    }
+    .pi5-footer-text {
+      color: var(--text-muted);
+      font-size: 0.88rem;
+      line-height: 1.5;
+    }
+    .pi5-portal-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: linear-gradient(135deg, #e11d48, #be123c);
+      color: #fff;
+      font-weight: 600;
+      font-size: 0.88rem;
+      padding: 0.65rem 1.25rem;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: all var(--transition);
+      box-shadow: 0 4px 15px rgba(225, 29, 72, 0.25);
+    }
+    .pi5-portal-btn:hover {
+      background: linear-gradient(135deg, #f43f5e, #e11d48);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(225, 29, 72, 0.4);
+    }
+
+    .system-stats { margin-bottom: 2.5rem; }
+    @media (max-width: 900px) {
+      .grafana-charts-grid { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
@@ -2570,6 +2411,169 @@ function renderPortalHtml() {
         <div class="stat-item">
           <div class="stat-label">Session Lifetime</div>
           <div class="stat-value">1 Hour (Auto-Revoke)</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Grafana Live Telemetry Dashboard Preview -->
+    <div class="grafana-preview-panel">
+      <div class="grafana-header-bar">
+        <div class="grafana-header-left">
+          <div class="grafana-logo-badge">📊</div>
+          <div class="grafana-title-wrap">
+            <h4>Homelab Cluster Observability & Telemetry</h4>
+            <span>Dashboard: <strong>Production-Cluster-Overview</strong> &bull; Engine: <strong>Prometheus TSDB (10s Scrape)</strong></span>
+          </div>
+        </div>
+        <div class="grafana-header-right">
+          <span class="grafana-status-pill"><span class="pulse-dot"></span> System Normal</span>
+          <a href="https://grafana.shasaengineering.online" target="_blank" rel="noopener" class="grafana-launch-link">
+            Open Grafana Station &rarr;
+          </a>
+        </div>
+      </div>
+
+      <div class="grafana-body">
+        <!-- KPI Metric Cards Grid -->
+        <div class="grafana-kpi-grid">
+          <div class="grafana-stat-card">
+            <div class="grafana-stat-title">ZFS Primary Pool (ParentDrive)</div>
+            <div class="grafana-stat-value">1.78 TB <span style="font-size: 0.85rem; color: #94a3b8; font-weight: normal;">/ 6.00 TB</span></div>
+            <div class="grafana-stat-desc">
+              <span style="color: #34d399;">● Healthy</span> &bull; 0 Scrub Errors &bull; 2.0% Frag
+            </div>
+            <div class="grafana-stat-progress">
+              <div class="grafana-stat-fill" style="width: 29.7%; background: linear-gradient(90deg, #f97316, #fb923c);"></div>
+            </div>
+          </div>
+
+          <div class="grafana-stat-card cyan">
+            <div class="grafana-stat-title">NVMe Container Pool (Apps)</div>
+            <div class="grafana-stat-value">54.3 GB <span style="font-size: 0.85rem; color: #94a3b8; font-weight: normal;">/ 256 GB</span></div>
+            <div class="grafana-stat-desc">
+              <span style="color: #34d399;">● Healthy</span> &bull; High-IOPS SSD Storage
+            </div>
+            <div class="grafana-stat-progress">
+              <div class="grafana-stat-fill" style="width: 21.4%; background: linear-gradient(90deg, #38bdf8, #0ea5e9);"></div>
+            </div>
+          </div>
+
+          <div class="grafana-stat-card green">
+            <div class="grafana-stat-title">Sailor-Pi Core Thermals</div>
+            <div class="grafana-stat-value" style="color: #34d399;">54.5°C</div>
+            <div class="grafana-stat-desc">
+              <span>Load: 0.08, 0.35, 0.43</span> &bull; <span>Optimal Zone</span>
+            </div>
+            <div class="grafana-stat-progress">
+              <div class="grafana-stat-fill" style="width: 54.5%; background: linear-gradient(90deg, #34d399, #10b981);"></div>
+            </div>
+          </div>
+
+          <div class="grafana-stat-card purple">
+            <div class="grafana-stat-title">ARM64 Memory Utilization</div>
+            <div class="grafana-stat-value">2.70 GB <span style="font-size: 0.85rem; color: #94a3b8; font-weight: normal;">/ 16.0 GB</span></div>
+            <div class="grafana-stat-desc">
+              <span>15.9% In-Use</span> &bull; <span>13.3 GB Free / Cache</span>
+            </div>
+            <div class="grafana-stat-progress">
+              <div class="grafana-stat-fill" style="width: 15.9%; background: linear-gradient(90deg, #a855f7, #8b5cf6);"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Time Series & Services Breakdown -->
+        <div class="grafana-charts-grid">
+          <div class="grafana-chart-panel">
+            <div class="grafana-panel-header">
+              <div class="grafana-panel-title">
+                <span>📈 24-Hour Telemetry History & Thermal Curve</span>
+              </div>
+              <div class="grafana-panel-legend">
+                <div class="legend-item"><span class="legend-dot" style="background: #f97316;"></span> SoC Temp (°C)</div>
+                <div class="legend-item"><span class="legend-dot" style="background: #38bdf8;"></span> CPU Load (%)</div>
+                <div class="legend-item"><span class="legend-dot" style="background: #34d399;"></span> ZFS ARC Hit (%)</div>
+              </div>
+            </div>
+            <svg class="grafana-svg-chart" viewBox="0 0 680 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="tempGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#f97316" stop-opacity="0.35"/>
+                  <stop offset="100%" stop-color="#f97316" stop-opacity="0.0"/>
+                </linearGradient>
+                <linearGradient id="loadGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.3"/>
+                  <stop offset="100%" stop-color="#38bdf8" stop-opacity="0.0"/>
+                </linearGradient>
+              </defs>
+              <line x1="40" y1="30" x2="660" y2="30" stroke="rgba(255,255,255,0.05)" stroke-dasharray="3 3"/>
+              <line x1="40" y1="70" x2="660" y2="70" stroke="rgba(255,255,255,0.05)" stroke-dasharray="3 3"/>
+              <line x1="40" y1="110" x2="660" y2="110" stroke="rgba(255,255,255,0.05)" stroke-dasharray="3 3"/>
+              <line x1="40" y1="150" x2="660" y2="150" stroke="rgba(255,255,255,0.08)"/>
+
+              <text x="32" y="34" fill="#64748b" font-size="10" font-family="'JetBrains Mono', monospace" text-anchor="end">100%</text>
+              <text x="32" y="74" fill="#64748b" font-size="10" font-family="'JetBrains Mono', monospace" text-anchor="end">75°/75%</text>
+              <text x="32" y="114" fill="#64748b" font-size="10" font-family="'JetBrains Mono', monospace" text-anchor="end">50°/50%</text>
+              <text x="32" y="154" fill="#64748b" font-size="10" font-family="'JetBrains Mono', monospace" text-anchor="end">0</text>
+
+              <!-- ZFS ARC Hit Area (Green 98%) -->
+              <path d="M50 35 L150 36 L250 34 L350 35 L450 36 L550 34 L650 35" stroke="#34d399" stroke-width="2" fill="none"/>
+
+              <!-- Temp Area (Orange ~54C) -->
+              <path d="M50 102 C100 104, 130 98, 180 100 C230 102, 280 95, 330 96 C380 97, 430 103, 480 101 C530 99, 580 97, 650 99 L650 150 L50 150 Z" fill="url(#tempGrad)"/>
+              <path d="M50 102 C100 104, 130 98, 180 100 C230 102, 280 95, 330 96 C380 97, 430 103, 480 101 C530 99, 580 97, 650 99" stroke="#f97316" stroke-width="2.5" fill="none"/>
+
+              <!-- CPU Load Area (Cyan 10-25%) -->
+              <path d="M50 142 C90 140, 120 132, 160 135 C200 138, 240 120, 280 125 C320 130, 360 144, 400 139 C450 134, 500 128, 550 136 C600 144, 630 141, 650 140 L650 150 L50 150 Z" fill="url(#loadGrad)"/>
+              <path d="M50 142 C90 140, 120 132, 160 135 C200 138, 240 120, 280 125 C320 130, 360 144, 400 139 C450 134, 500 128, 550 136 C600 144, 630 141, 650 140" stroke="#38bdf8" stroke-width="2" fill="none"/>
+
+              <text x="50" y="168" fill="#64748b" font-size="10" font-family="'JetBrains Mono', monospace">00:00</text>
+              <text x="170" y="168" fill="#64748b" font-size="10" font-family="'JetBrains Mono', monospace">04:00</text>
+              <text x="290" y="168" fill="#64748b" font-size="10" font-family="'JetBrains Mono', monospace">08:00</text>
+              <text x="410" y="168" fill="#64748b" font-size="10" font-family="'JetBrains Mono', monospace">12:00</text>
+              <text x="530" y="168" fill="#64748b" font-size="10" font-family="'JetBrains Mono', monospace">16:00</text>
+              <text x="640" y="168" fill="#64748b" font-size="10" font-family="'JetBrains Mono', monospace">Now</text>
+            </svg>
+          </div>
+
+          <div class="grafana-chart-panel">
+            <div class="grafana-panel-header">
+              <div class="grafana-panel-title">
+                <span>⚡ Monitored Daemons & Targets</span>
+              </div>
+            </div>
+            <div class="grafana-service-list">
+              <div class="grafana-service-row">
+                <div class="grafana-service-name"><span>●</span> Pi-hole FTL DNS</div>
+                <span style="color: #34d399; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem;">Active</span>
+              </div>
+              <div class="grafana-service-row">
+                <div class="grafana-service-name"><span>●</span> TrueNAS SCALE Hypervisor</div>
+                <span style="color: #34d399; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem;">Online</span>
+              </div>
+              <div class="grafana-service-row">
+                <div class="grafana-service-name"><span>●</span> Immich ML Neural Core</div>
+                <span style="color: #34d399; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem;">Running</span>
+              </div>
+              <div class="grafana-service-row">
+                <div class="grafana-service-name"><span>●</span> Prometheus TSDB</div>
+                <span style="color: #34d399; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem;">10s Polling</span>
+              </div>
+              <div class="grafana-service-row">
+                <div class="grafana-service-name"><span>●</span> Cloudflare Argo Tunnel</div>
+                <span style="color: #38bdf8; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem;">Encrypted</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Footer Access Strip -->
+        <div class="grafana-footer-cta">
+          <div class="grafana-footer-text">
+            🔒 <strong>Zero Public Inbound Ports:</strong> Metrics scraped continuously over encrypted internal daemons. Dashboards accessible with multi-factor Zero Trust authentication.
+          </div>
+          <a href="https://grafana.shasaengineering.online" target="_blank" rel="noopener" class="grafana-footer-btn">
+            Launch Grafana Station &rarr;
+          </a>
         </div>
       </div>
     </div>
