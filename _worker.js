@@ -762,7 +762,7 @@ function renderHomeHtml() {
 
     .deepdive-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
       gap: 1.75rem;
     }
     .deepdive-card {
@@ -1066,7 +1066,7 @@ mcp = FastMCP(<span class="str">"Studio5000-Live-MCP"</span>)
           <span class="section-tag">// Engineering Case Study</span>
           <h2 class="section-title">Private Cloud & Homelab Infrastructure</h2>
           <p style="color: var(--text-muted); font-size: 1.05rem; margin-top: 0.5rem; max-width: 820px;">
-            A detailed architectural breakdown of my multi-tiered, self-hosted engineering lab built with TrueNAS SCALE, Raspberry Pi edge gateways, and zero-trust perimeter routing.
+            A detailed architectural breakdown of my multi-tiered, self-hosted engineering lab built with TrueNAS SCALE, Raspberry Pi edge gateways, Grafana & Prometheus observability, and zero-trust perimeter routing.
           </p>
         </div>
 
@@ -1083,6 +1083,7 @@ mcp = FastMCP(<span class="str">"Studio5000-Live-MCP"</span>)
               <span class="metric-pill">ZFS Mirrored Pool</span>
               <span class="metric-pill">Sub-ms Local DNS</span>
               <span class="metric-pill">Local Neural ML</span>
+              <span class="metric-pill">Prometheus Telemetry</span>
             </div>
           </div>
 
@@ -1162,6 +1163,43 @@ mcp = FastMCP(<span class="str">"Studio5000-Live-MCP"</span>)
                 <div><strong>Primary Services:</strong> Pi-hole FTL DNS Sinkhole & Edge Workstation</div>
                 <div><strong>Remote Display:</strong> In-Browser GUI Screenshare (Hardware-Accelerated WebRTC)</div>
                 <div><strong>Tunnel Protocol:</strong> Cloudflare Zero Trust mTLS Tunnel</div>
+              </div>
+            </div>
+
+            <div class="deepdive-card">
+              <div>
+                <div class="deepdive-header">
+                  <div class="deepdive-icon">📈</div>
+                  <span class="deepdive-badge">TELEMETRY & OBSERVABILITY</span>
+                </div>
+                <h3 class="deepdive-title">Unified Cluster Observability (Grafana & Prometheus)</h3>
+                <p class="deepdive-desc">
+                  Centralized real-time telemetry, time-series metrics collection, and anomaly monitoring across bare-metal compute nodes, hypervisors, and isolated microservice container stacks.
+                </p>
+                <div class="deepdive-bullets">
+                  <div class="bullet-point">
+                    <span class="bullet-icon">▸</span>
+                    <div><strong>High-Frequency Metric Scraping:</strong> Prometheus time-series engine polls node exporters and daemon targets for CPU core load curves, RAM saturation, and interface packet flow.</div>
+                  </div>
+                  <div class="bullet-point">
+                    <span class="bullet-icon">▸</span>
+                    <div><strong>Storage Subsystem & ZFS Telemetry:</strong> Real-time visualization of ZFS ARC cache hit efficiency, pool read/write bandwidth, and transaction group commit latency.</div>
+                  </div>
+                  <div class="bullet-point">
+                    <span class="bullet-icon">▸</span>
+                    <div><strong>Continuous Thermal & Health Polling:</strong> Proactive telemetry monitoring chassis thermals, core package temperatures, and drive SMART status to detect thermal throttling early.</div>
+                  </div>
+                  <div class="bullet-point">
+                    <span class="bullet-icon">▸</span>
+                    <div><strong>Zero-Trust Identity Protection:</strong> Observability dashboards are shielded behind Cloudflare Zero Trust Access and encrypted Argo tunnels with strict multi-factor authentication and zero public port exposure.</div>
+                  </div>
+                </div>
+              </div>
+              <div class="spec-table">
+                <div><strong>Metrics Collection Engine:</strong> Prometheus Time-Series Scraper</div>
+                <div><strong>Observability Suite:</strong> Grafana Core Analytics Platform</div>
+                <div><strong>Scrape Resolution:</strong> High-Resolution 15-Second Polling</div>
+                <div><strong>Perimeter Security:</strong> Cloudflare Zero Trust mTLS Mesh</div>
               </div>
             </div>
           </div>
@@ -1707,6 +1745,25 @@ function renderPortalHtml() {
         </div>
         <a href="https://connect.raspberrypi.com/devices/a0984452-db8d-4490-8193-3ae17f11c470" target="_blank" rel="noopener" class="launch-btn">
           Launch Remote Desktop &rarr;
+        </a>
+      </div>
+
+      <div class="portal-card">
+        <div>
+          <div class="card-top">
+            <div class="card-icon icon-grafana" style="background: rgba(249, 115, 22, 0.15); border: 1px solid rgba(249, 115, 22, 0.3); color: #f97316;">📈</div>
+            <span class="card-status"><span class="pulse-dot"></span> Active</span>
+          </div>
+          <h3 class="card-title">Sailor-Pi / Grafana Observability</h3>
+          <p class="card-desc">High-resolution cluster observability dashboards, hardware thermals, Prometheus time-series query metrics, and system telemetry across all nodes.</p>
+          <div class="telemetry-box">
+            <span>⚡ Cluster Role: Real-Time Observability & Metrics</span>
+            <span>📊 Metrics Engine: Prometheus & Node Exporter Time-Series</span>
+            <span>🔒 Access: Multi-Factor Zero Trust Authentication</span>
+          </div>
+        </div>
+        <a href="https://grafana.shasaengineering.online" target="_blank" rel="noopener" class="launch-btn">
+          Launch Grafana Dashboards &rarr;
         </a>
       </div>
     </div>
