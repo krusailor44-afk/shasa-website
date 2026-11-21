@@ -1153,14 +1153,14 @@ mcp = FastMCP(<span class="str">"Studio5000-Live-MCP"</span>)
                   </div>
                   <div class="bullet-point">
                     <span class="bullet-icon">▸</span>
-                    <div><strong>Zero-Trust Remote Desktop (Screenshare):</strong> Full graphical desktop streaming (GUI) rendered directly inside the web browser via Cloudflare Access and VNC, enabling complete control of mouse, keyboard, and Linux desktop workspace without public port forwarding.</div>
+                    <div><strong>Zero-Trust Remote Desktop (Screenshare):</strong> Full graphical desktop streaming (GUI) rendered directly inside the web browser via hardware-accelerated WebRTC, enabling complete control of mouse, keyboard, and Linux desktop workspace without public port forwarding.</div>
                   </div>
                 </div>
               </div>
               <div class="spec-table">
                 <div><strong>Hardware Architecture:</strong> Raspberry Pi ARM64 (Sailor-Pi Node)</div>
                 <div><strong>Primary Services:</strong> Pi-hole FTL DNS Sinkhole & Edge Workstation</div>
-                <div><strong>Remote Display:</strong> In-Browser GUI Screenshare (Cloudflare VNC)</div>
+                <div><strong>Remote Display:</strong> In-Browser GUI Screenshare (Hardware-Accelerated WebRTC)</div>
                 <div><strong>Tunnel Protocol:</strong> Cloudflare Zero Trust mTLS Tunnel</div>
               </div>
             </div>
@@ -1698,14 +1698,14 @@ function renderPortalHtml() {
             <span class="card-status"><span class="pulse-dot"></span> Active</span>
           </div>
           <h3 class="card-title">Sailor-Pi / Remote Desktop</h3>
-          <p class="card-desc">Full graphical desktop screensharing (GUI) for the Raspberry Pi. Control mouse, keyboard, applications, and desktop workspace directly in your browser without local VNC clients or open ports.</p>
+          <p class="card-desc">Full graphical desktop screensharing (GUI) for the Raspberry Pi. Control mouse, keyboard, applications, and desktop workspace directly in your browser with hardware-accelerated 60 FPS WebRTC streaming.</p>
           <div class="telemetry-box">
             <span>⚡ Node: Sailor-Pi ARM64 Workstation</span>
-            <span>🛡️ Remote Display: Cloudflare Zero Trust VNC Session</span>
+            <span>🛡️ Remote Display: 60 FPS Hardware-Accelerated WebRTC</span>
             <span>🔒 Access: Multi-Factor Zero Trust Authentication</span>
           </div>
         </div>
-        <a href="https://desktop.shasaengineering.online" target="_blank" rel="noopener" class="launch-btn">
+        <a href="https://connect.raspberrypi.com/devices/a0984452-db8d-4490-8193-3ae17f11c470" target="_blank" rel="noopener" class="launch-btn">
           Launch Remote Desktop &rarr;
         </a>
       </div>
