@@ -151,13 +151,14 @@ export default {
   }
 };
 
-function renderPasswordGateHtml(errorMessage = "", totpSecret = "") {
-  const formattedSecret = totpSecret.match(/.{1,4}/g)?.join(' ') || totpSecret;
-  const qrUri = encodeURIComponent(`otpauth://totp/ShasaEngineering:krusailor44@gmail.com?secret=${totpSecret}&issuer=ShasaEngineering`);
-  const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&margin=8&data=${qrUri}`;
+function renderPasswordGateHtml(errorMessage = "", totpSecret = "7FQRDDC2ZC2XUOX23TYBXCOX6FUC34M2") {
+  const secretClean = (totpSecret || "7FQRDDC2ZC2XUOX23TYBXCOX6FUC34M2").toUpperCase().replace(/\s+/g, '');
+  const formattedSecret = secretClean.match(/.{1,4}/g)?.join(' ') || secretClean;
+  const qrUri = encodeURIComponent("otpauth://totp/ShasaEngineering:krusailor44@gmail.com?secret=" + secretClean + "&issuer=ShasaEngineering");
+  const qrUrl = "https://api.qrserver.com/v1/create-qr-code/?size=200x200&margin=8&data=" + qrUri;
   const errorBanner = errorMessage ? ('<div class="error-msg">⚠️ ' + errorMessage + '</div>') : '';
 
-  return `<!DOCTYPE html>
+  const html = `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -377,7 +378,7 @@ function renderPasswordGateHtml(errorMessage = "", totpSecret = "") {
     <div class="lock-icon">🔐</div>
     <h1>Homelab 2FA Gate</h1>
     <p>Administrative vault access requires your master password plus a 6-digit dynamic authenticator token.</p>
-    ${errorBanner}
+    <!--ERROR_BANNER-->
     <form method="POST" action="/portal">
       <div class="input-group">
         <label for="password">Master Password</label>
@@ -399,9 +400,9 @@ function renderPasswordGateHtml(errorMessage = "", totpSecret = "") {
             <li>Tap <strong>+</strong> and scan this QR code:</li>
           </ol>
         </div>
-        <img class="qr-img" src="${qrUrl}" alt="Google Authenticator QR Code">
+        <img class="qr-img" src="<!--QR_URL-->" alt="Google Authenticator QR Code">
         <div class="setup-steps">Or manually enter this 32-character secret key:</div>
-        <div class="key-display">${formattedSecret}</div>
+        <div class="key-display"><!--FORMATTED_SECRET--></div>
         <div class="setup-steps" style="font-size: 0.75rem; color: #64748b;">Issuer: ShasaEngineering &bull; Account: krusailor44@gmail.com</div>
       </div>
     </details>
@@ -410,6 +411,11 @@ function renderPasswordGateHtml(errorMessage = "", totpSecret = "") {
   </div>
 </body>
 </html>`;
+
+  return html
+    .replace('<!--ERROR_BANNER-->', errorBanner)
+    .replace('<!--QR_URL-->', qrUrl)
+    .replace('<!--FORMATTED_SECRET-->', formattedSecret);
 }
 
 function renderHomeHtml() {
@@ -1371,7 +1377,7 @@ mcp = FastMCP(<span class="str">"Studio5000-Live-MCP"</span>)
   <footer>
     <div class="container footer-content">
       <div class="footer-text">
-        &copy; ${new Date().getFullYear()} Krutarth Sailor &bull; Shasa Engineering. All rights reserved.
+        &copy; 2026 Krutarth Sailor &bull; Shasa Engineering. All rights reserved.
       </div>
       <div class="footer-links">
         <a href="https://github.com/krusailor44-afk/Studio5000-MCP" target="_blank" rel="noopener">GitHub</a>
