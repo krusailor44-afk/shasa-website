@@ -155,6 +155,7 @@ function renderPasswordGateHtml(errorMessage = "", totpSecret = "") {
   const formattedSecret = totpSecret.match(/.{1,4}/g)?.join(' ') || totpSecret;
   const qrUri = encodeURIComponent(`otpauth://totp/ShasaEngineering:krusailor44@gmail.com?secret=${totpSecret}&issuer=ShasaEngineering`);
   const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&margin=8&data=${qrUri}`;
+  const errorBanner = errorMessage ? ('<div class="error-msg">⚠️ ' + errorMessage + '</div>') : '';
 
   return `<!DOCTYPE html>
 <html lang="en">
@@ -376,7 +377,7 @@ function renderPasswordGateHtml(errorMessage = "", totpSecret = "") {
     <div class="lock-icon">🔐</div>
     <h1>Homelab 2FA Gate</h1>
     <p>Administrative vault access requires your master password plus a 6-digit dynamic authenticator token.</p>
-    ${errorMessage ? `<div class="error-msg">⚠️ ${errorMessage}</div>` : ''}
+    ${errorBanner}
     <form method="POST" action="/portal">
       <div class="input-group">
         <label for="password">Master Password</label>
