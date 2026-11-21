@@ -1229,12 +1229,16 @@ mcp = FastMCP(<span class="str">"Studio5000-Live-MCP"</span>)
                     <span class="bullet-icon">▸</span>
                     <div><strong>Out-of-Band Remote Access:</strong> Equipped with an independent Cloudflare Tunnel daemon for secure headless remote maintenance and query log inspection.</div>
                   </div>
+                  <div class="bullet-point">
+                    <span class="bullet-icon">▸</span>
+                    <div><strong>Zero-Trust Browser SSH Terminal:</strong> Full remote command-line access to the Raspberry Pi OS environment over port 22, rendered directly inside the web browser via Cloudflare Access with zero exposed WAN ports and multi-factor authentication.</div>
+                  </div>
                 </div>
               </div>
               <div class="spec-table">
                 <div><strong>Hardware Architecture:</strong> Raspberry Pi ARM64 (Sailor-Pi Node)</div>
                 <div><strong>Primary Service:</strong> Pi-hole FTL Recursive DNS Engine</div>
-                <div><strong>Security Enforcement:</strong> Automated blocklist synchronization</div>
+                <div><strong>Remote Shell:</strong> In-Browser SSH (Cloudflare Zero Trust, Port 22)</div>
                 <div><strong>Tunnel Protocol:</strong> Cloudflare Zero Trust mTLS Tunnel</div>
               </div>
             </div>
@@ -1582,6 +1586,7 @@ function renderPortalHtml() {
     .icon-truenas { background: rgba(59, 130, 246, 0.15); border: 1px solid rgba(59, 130, 246, 0.3); }
     .icon-pi { background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.3); }
     .icon-immich { background: rgba(168, 85, 247, 0.15); border: 1px solid rgba(168, 85, 247, 0.3); }
+    .icon-terminal { background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.3); }
 
     .card-status {
       font-family: 'JetBrains Mono', monospace;
@@ -1761,6 +1766,25 @@ function renderPortalHtml() {
         </div>
         <a href="https://photos.shasaengineering.online" target="_blank" rel="noopener" class="launch-btn">
           Open Immich Photos &rarr;
+        </a>
+      </div>
+
+      <div class="portal-card">
+        <div>
+          <div class="card-top">
+            <div class="card-icon icon-terminal">💻</div>
+            <span class="card-status"><span class="pulse-dot"></span> Active</span>
+          </div>
+          <h3 class="card-title">Sailor-Pi / Linux Terminal</h3>
+          <p class="card-desc">Direct in-browser SSH shell to the Raspberry Pi OS environment for diagnostics, kernel updates, Docker container management, and hardware GPIO orchestration.</p>
+          <div class="telemetry-box">
+            <span>⚡ Host: Sailor-Pi (Raspberry Pi ARM64)</span>
+            <span>🛡️ Protocol: Cloudflare Tunnel &rarr; SSH (Port 22)</span>
+            <span>🔒 Policy: krusailor44@gmail.com OTP (1h)</span>
+          </div>
+        </div>
+        <a href="https://terminal.shasaengineering.online" target="_blank" rel="noopener" class="launch-btn">
+          Launch Web Terminal &rarr;
         </a>
       </div>
     </div>
