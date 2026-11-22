@@ -1,6 +1,6 @@
 /**
  * Shasa Engineering - Portfolio & Homelab Zero-Trust Command Center
- * Author: Krutarth Sailor (krusailor44@gmail.com)
+ * Author: Krutarth Sailor (sailor.krutarth@yahoo.in)
  * Domain: shasaengineering.online
  */
 
@@ -394,7 +394,30 @@ function renderPasswordGateHtml(errorMessage = "") {
       transition: color 0.2s;
     }
     .back-link:hover { color: #fff; }
-  </style>
+  
+    .portal-nav-btn {
+      padding: 0.45rem 1.1rem;
+      border-radius: 9999px;
+      background: rgba(30, 58, 138, 0.25);
+      border: 1px solid rgba(96, 165, 250, 0.4);
+      color: #bfdbfe;
+      font-weight: 600;
+      font-size: 0.88rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.2s ease;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .portal-nav-btn:hover {
+      background: rgba(37, 99, 235, 0.4);
+      border-color: #60a5fa;
+      color: #ffffff;
+      box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+      transform: translateY(-1px);
+    }
+</style>
 </head>
 <body>
   <div class="auth-card">
@@ -603,6 +626,29 @@ function renderHomeHtml() {
       transition: color 0.2s;
     }
     nav a:hover { color: #fff; }
+
+    .portal-nav-btn {
+      padding: 0.45rem 1.15rem;
+      border-radius: 9999px;
+      background: rgba(30, 58, 138, 0.3);
+      border: 1px solid rgba(96, 165, 250, 0.45);
+      color: #bfdbfe;
+      font-weight: 600;
+      font-size: 0.88rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.2s ease;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .portal-nav-btn:hover {
+      background: rgba(37, 99, 235, 0.45);
+      border-color: #60a5fa;
+      color: #ffffff;
+      box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+      transform: translateY(-1px);
+    }
 
     .container {
       max-width: 1200px;
@@ -1737,6 +1783,7 @@ function renderHomeHtml() {
         <a href="#homelab">Homelab Architecture</a>
         <a href="#skills">Skills</a>
         <a href="#experience">Experience</a>
+        <a href="/portal" class="portal-nav-btn">🔐 Homelab Portal</a>
       </nav>
     </div>
   </header>
@@ -1764,12 +1811,16 @@ function renderHomeHtml() {
             Connect on LinkedIn
           </a>
           <div class="contact-cta-wrapper">
-            <button id="contactBtn" class="btn btn-contact" aria-label="Copy Contact Email" onclick="copyContactEmail()">
+            <button id="contactBtn" class="btn btn-contact" type="button" aria-label="Copy Contact Email (sailor.krutarth@yahoo.in)" onclick="copyContactEmail()">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
               <span id="contactBtnText">Copy Email</span>
             </button>
-            <span id="contactTooltip" class="contact-tooltip">Copied to Clipboard!</span>
+            <span id="contactTooltip" class="contact-tooltip">Copied: sailor.krutarth@yahoo.in</span>
           </div>
+          <a href="mailto:sailor.krutarth@yahoo.in" class="btn btn-secondary" title="Direct Email sailor.krutarth@yahoo.in">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+            Email
+          </a>
           <a href="#homelab" class="btn btn-secondary">Homelab Architecture &rarr;</a>
         </div>
       </section>
@@ -2032,6 +2083,9 @@ mcp = FastMCP(<span class="str">"Studio5000-Live-MCP"</span>)
               <p>
                 My homelab operates entirely without open router ports or static public IPs. Inbound traffic is handled via encrypted Cloudflare Argo Tunnel daemons that establish outbound-only mTLS connections directly to Cloudflare's global edge network, enforced with Zero Trust identity validation.
               </p>
+              <div style="margin-top: 1.25rem;">
+                <a href="/portal" class="portal-nav-btn" style="padding: 0.6rem 1.35rem; font-size: 0.92rem;">🔐 Access Homelab Vault &rarr;</a>
+              </div>
             </div>
             <div class="metrics-pills">
               <span class="metric-pill">0 Open Ports</span>
@@ -2707,35 +2761,61 @@ mcp = FastMCP(<span class="str">"Studio5000-Live-MCP"</span>)
         <a href="#homelab">Homelab Architecture</a>
         <a href="#skills">Skills</a>
         <a href="#experience">Experience</a>
+        <a href="/portal" style="color: #93c5fd; font-weight: 600;">🔐 Homelab Vault</a>
       </div>
     </div>
   </footer>
 
 
   <script>
-    // 1. Obfuscated Contact Email Copy
+    // 1. Robust Contact Email Copy (sailor.krutarth@yahoo.in)
     function copyContactEmail() {
-      const parts = ['krusailor44', 'gmail.com'];
-      const email = parts.join('@');
+      const email = 'sailor.krutarth@yahoo.in';
       if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(email).then(() => {
-          showCopiedFeedback();
-        }).catch(() => {
-          window.location.href = 'mailto:' + email;
+        navigator.clipboard.writeText(email).then(function() {
+          showCopiedFeedback(email);
+        }).catch(function() {
+          execCopyFallback(email);
         });
       } else {
-        window.location.href = 'mailto:' + email;
+        execCopyFallback(email);
       }
     }
-    function showCopiedFeedback() {
+
+    function execCopyFallback(text) {
+      try {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.left = '-9999px';
+        ta.style.top = '-9999px';
+        ta.setAttribute('readonly', '');
+        document.body.appendChild(ta);
+        ta.focus();
+        ta.select();
+        ta.setSelectionRange(0, 99999);
+        const ok = document.execCommand('copy');
+        document.body.removeChild(ta);
+        if (ok) {
+          showCopiedFeedback(text);
+          return;
+        }
+      } catch (e) {}
+      window.location.href = 'mailto:' + text;
+    }
+
+    function showCopiedFeedback(email) {
       const tip = document.getElementById('contactTooltip');
       const btn = document.getElementById('contactBtnText');
-      if (tip) tip.classList.add('visible');
+      if (tip) {
+        tip.textContent = 'Copied: ' + email;
+        tip.classList.add('visible');
+      }
       if (btn) btn.textContent = 'Copied!';
-      setTimeout(() => {
+      setTimeout(function() {
         if (tip) tip.classList.remove('visible');
         if (btn) btn.textContent = 'Copy Email';
-      }, 2500);
+      }, 3000);
     }
 
     // 2. Interactive Terminal Simulator
