@@ -2867,7 +2867,7 @@ mcp = FastMCP(<span class="str">"Studio5000-Live-MCP"</span>)
           const ramBar = document.getElementById('telemetry-ram-bar');
           if (ramText && m.ram_used_gb !== undefined && m.ram_total_gb !== undefined) {
             const ramPct = m.ram_usage_percent !== undefined ? m.ram_usage_percent.toFixed(1) : ((m.ram_used_gb / m.ram_total_gb) * 100).toFixed(1);
-            ramText.innerHTML = `${m.ram_used_gb.toFixed(2)} GB <span style="font-size:0.85rem;color:#94a3b8;font-weight:normal;">/ ${m.ram_total_gb.toFixed(1)} GB (${ramPct}%)</span>`;
+            ramText.innerHTML = m.ram_used_gb.toFixed(2) + ' GB <span style="font-size:0.85rem;color:#94a3b8;font-weight:normal;">/ ' + m.ram_total_gb.toFixed(1) + ' GB (' + ramPct + '%)</span>';
             if (ramBar) ramBar.style.width = ramPct + '%';
           }
 
@@ -2876,7 +2876,7 @@ mcp = FastMCP(<span class="str">"Studio5000-Live-MCP"</span>)
           const diskBar = document.getElementById('telemetry-disk-bar');
           if (diskText && m.disk_used_gb !== undefined && m.disk_total_gb !== undefined) {
             const diskPct = m.disk_usage_percent !== undefined ? m.disk_usage_percent.toFixed(1) : ((m.disk_used_gb / m.disk_total_gb) * 100).toFixed(1);
-            diskText.innerHTML = `${m.disk_used_gb.toFixed(1)} GB <span style="font-size:0.85rem;color:#94a3b8;font-weight:normal;">/ ${m.disk_total_gb.toFixed(1)} GB (${diskPct}%)</span>`;
+            diskText.innerHTML = m.disk_used_gb.toFixed(1) + ' GB <span style="font-size:0.85rem;color:#94a3b8;font-weight:normal;">/ ' + m.disk_total_gb.toFixed(1) + ' GB (' + diskPct + '%)</span>';
             if (diskBar) diskBar.style.width = diskPct + '%';
           }
 
@@ -2886,8 +2886,8 @@ mcp = FastMCP(<span class="str">"Studio5000-Live-MCP"</span>)
             let syncLabel = 'LIVE EDGE NODE &bull; SYNCED';
             if (data.timestamp) {
               const diffSec = Math.floor((Date.now() - new Date(data.timestamp).getTime()) / 1000);
-              if (diffSec >= 60) syncLabel += ` (${Math.floor(diffSec / 60)}m ago)`;
-              else if (diffSec > 0) syncLabel += ` (${diffSec}s ago)`;
+              if (diffSec >= 60) syncLabel += ' (' + Math.floor(diffSec / 60) + 'm ago)';
+              else if (diffSec > 0) syncLabel += ' (' + diffSec + 's ago)';
               else syncLabel += ' (just now)';
             }
             badge.className = 'pi-live-badge synced';
