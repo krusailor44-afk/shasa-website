@@ -81,7 +81,7 @@ export default {
       "X-Frame-Options": "DENY",
       "Referrer-Policy": "strict-origin-when-cross-origin",
       "Permissions-Policy": "camera=(), microphone=(), geolocation=()",
-      "Content-Security-Policy": "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://www.shasaengineering.online; base-uri 'self'; form-action 'self'; frame-ancestors 'none';"
+      "Content-Security-Policy": "default-src 'self'; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://www.shasaengineering.online https://cloudflareinsights.com; base-uri 'self'; form-action 'self'; frame-ancestors 'none';"
     };
 
     const noCacheHeaders = {
@@ -1816,12 +1816,8 @@ function renderHomeHtml() {
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
               <span id="contactBtnText">Copy Email</span>
             </button>
-            <span id="contactTooltip" class="contact-tooltip">Copied: sailor.krutarth@yahoo.in</span>
+            <span id="contactTooltip" class="contact-tooltip">Copied to Clipboard!</span>
           </div>
-          <a href="mailto:sailor.krutarth@yahoo.in" class="btn btn-secondary" title="Email sailor.krutarth@yahoo.in directly">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
-            Email
-          </a>
           <!--/email_off-->
           <a href="#homelab" class="btn btn-secondary">Homelab Architecture &rarr;</a>
         </div>
@@ -1900,7 +1896,7 @@ function renderHomeHtml() {
     <span class="diagram-name">Dual-Adapter Control Engine &bull; Deterministic CIP Pipeline</span>
   </div>
   <div class="svg-container">
-    <svg viewBox="0 0 920 300" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Studio5000-MCP Dual-Adapter Architecture Diagram">
+    <svg viewBox="0 0 920 300" width="100%" style="max-width: 100%; height: auto;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Studio5000-MCP Dual-Adapter Architecture Diagram">
       <defs>
         <linearGradient id="gradAi" x1="0%" y1="0%" x2="100%" y2="100%">
           <stop offset="0%" stop-color="#1e3a8a" stop-opacity="0.8"/>
@@ -2104,7 +2100,7 @@ mcp = FastMCP(<span class="str">"Studio5000-Live-MCP"</span>)
     <span class="diagram-name">Outbound-Only Zero-Trust Ingress Mesh &bull; 0 Open Ports</span>
   </div>
   <div class="svg-container">
-    <svg viewBox="0 0 920 280" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Homelab Zero-Trust Ingress Topology Diagram">
+    <svg viewBox="0 0 920 280" width="100%" style="max-width: 100%; height: auto;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Homelab Zero-Trust Ingress Topology Diagram">
       <defs>
         <linearGradient id="gradVisitor" x1="0%" y1="0%" x2="100%" y2="100%">
           <stop offset="0%" stop-color="#1e3a8a" stop-opacity="0.8"/>
@@ -2773,51 +2769,45 @@ mcp = FastMCP(<span class="str">"Studio5000-Live-MCP"</span>)
     // 1. Robust Contact Email Copy (sailor.krutarth@yahoo.in)
     function copyContactEmail() {
       const email = 'sailor.krutarth@yahoo.in';
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(email).then(function() {
-          showCopiedFeedback(email);
-        }).catch(function() {
-          execCopyFallback(email);
-        });
-      } else {
-        execCopyFallback(email);
-      }
-    }
-
-    function execCopyFallback(text) {
-      try {
-        const ta = document.createElement('textarea');
-        ta.value = text;
-        ta.style.position = 'fixed';
-        ta.style.left = '-9999px';
-        ta.style.top = '-9999px';
-        ta.setAttribute('readonly', '');
-        document.body.appendChild(ta);
-        ta.focus();
-        ta.select();
-        ta.setSelectionRange(0, 99999);
-        const ok = document.execCommand('copy');
-        document.body.removeChild(ta);
-        if (ok) {
-          showCopiedFeedback(text);
-          return;
-        }
-      } catch (e) {}
-      window.location.href = 'mailto:' + text;
-    }
-
-    function showCopiedFeedback(email) {
+      const btnText = document.getElementById('contactBtnText');
       const tip = document.getElementById('contactTooltip');
-      const btn = document.getElementById('contactBtnText');
-      if (tip) {
-        tip.textContent = 'Copied: ' + email;
-        tip.classList.add('visible');
+
+      function onSuccess() {
+        if (btnText) btnText.textContent = '✓ sailor.krutarth@yahoo.in (Copied!)';
+        if (tip) {
+          tip.textContent = 'Copied to Clipboard!';
+          tip.classList.add('visible');
+        }
+        setTimeout(function() {
+          if (btnText) btnText.textContent = 'Copy Email';
+          if (tip) tip.classList.remove('visible');
+        }, 3500);
       }
-      if (btn) btn.textContent = 'Copied!';
-      setTimeout(function() {
-        if (tip) tip.classList.remove('visible');
-        if (btn) btn.textContent = 'Copy Email';
-      }, 3000);
+
+      function fallbackCopy() {
+        try {
+          const ta = document.createElement('textarea');
+          ta.value = email;
+          ta.setAttribute('readonly', '');
+          ta.style.position = 'absolute';
+          ta.style.left = '-9999px';
+          document.body.appendChild(ta);
+          ta.select();
+          const successful = document.execCommand('copy');
+          document.body.removeChild(ta);
+          if (successful) {
+            onSuccess();
+            return;
+          }
+        } catch (e) {}
+        window.location.href = 'mailto:' + email;
+      }
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(email).then(onSuccess).catch(fallbackCopy);
+      } else {
+        fallbackCopy();
+      }
     }
 
     // 2. Interactive Terminal Simulator
@@ -2833,7 +2823,7 @@ mcp = FastMCP(<span class="str">"Studio5000-Live-MCP"</span>)
       ],
       online: [
         { cls: "demo-line-cmd", text: "ops@agent-session:~$ python -m studio5000_mcp.client --call propose_online_edit --routine MainLine --rung 14" },
-        { cls: "demo-line-info", text: "[STAGE 1 - PROPOSE] NeutralText: \"XIC(Part_Present)OTE(Conveyor_Run);\"" },
+        { cls: "demo-line-info", text: "[STAGE 1 - PROPOSE] NeutralText: 'XIC(Part_Present)OTE(Conveyor_Run);'" },
         { cls: "demo-line-info", text: "[AST SYNTHESIS] L5X AST validated (-74% token reduction vs XML). Inserted staging rung 'i:14'." },
         { cls: "demo-line-warn", text: "[STAGE 2 - TEST] Staging rung in test mode on 1756-L83E ControlLogix. Verifying 100 scans..." },
         { cls: "demo-line-ok", text: "[STAGE 2 - TEST PASS] No fault conditions detected. Controller scan delta: +0.02ms (nominal)." },
