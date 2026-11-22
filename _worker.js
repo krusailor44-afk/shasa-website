@@ -2891,7 +2891,7 @@ mcp = FastMCP(<span class="str">"Studio5000-Live-MCP"</span>)
               else syncLabel += ' (just now)';
             }
             badge.className = 'pi-live-badge synced';
-            badge.innerHTML = `<span class="pulse-dot"></span> ` + syncLabel;
+            badge.innerHTML = '<span class="pulse-dot"></span> ' + syncLabel;
           }
         })
         .catch(() => {
@@ -2899,7 +2899,7 @@ mcp = FastMCP(<span class="str">"Studio5000-Live-MCP"</span>)
           const badge = document.getElementById('telemetry-badge');
           if (badge) {
             badge.className = 'pi-live-badge baseline';
-            badge.innerHTML = `<span class="pulse-dot dim"></span> BASELINE SNAPSHOT`;
+            badge.innerHTML = '<span class="pulse-dot dim"></span> BASELINE SNAPSHOT';
             badge.title = 'Displaying verified baseline idle metrics';
           }
         });
