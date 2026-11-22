@@ -2081,9 +2081,7 @@ mcp = FastMCP(<span class="str">"Studio5000-Live-MCP"</span>)
               <p>
                 My homelab operates entirely without open router ports or static public IPs. Inbound traffic is handled via encrypted Cloudflare Argo Tunnel daemons that establish outbound-only mTLS connections directly to Cloudflare's global edge network, enforced with Zero Trust identity validation.
               </p>
-              <div style="margin-top: 1.25rem;">
-                <a href="/portal" class="portal-nav-btn" style="padding: 0.6rem 1.35rem; font-size: 0.92rem;">🔐 Access Homelab Vault &rarr;</a>
-              </div>
+
             </div>
             <div class="metrics-pills">
               <span class="metric-pill">0 Open Ports</span>
@@ -2759,7 +2757,6 @@ mcp = FastMCP(<span class="str">"Studio5000-Live-MCP"</span>)
         <a href="#homelab">Homelab Architecture</a>
         <a href="#skills">Skills</a>
         <a href="#experience">Experience</a>
-        <a href="/portal" style="color: #93c5fd; font-weight: 600;">🔐 Homelab Vault</a>
       </div>
     </div>
   </footer>
