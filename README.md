@@ -1,15 +1,14 @@
-# Shasa Engineering Website & Homelab Vault
+# Shasa Engineering — Personal Portfolio & Automation R&D
 
-Official production website and Zero-Trust private homelab gateway for **Krutarth Sailor** — Electrical & Controls Engineer at Tesla (Austin, TX).
+Official repository for **Shasa Engineering** (`https://www.shasaengineering.online`) — the engineering portfolio and independent automation R&D platform of **Krutarth Sailor** (Electrical & Controls Engineer).
 
-🌐 **Live URL:** [https://shasaengineering.online](https://shasaengineering.online)  
-🔐 **Homelab Vault:** [https://shasaengineering.online/portal](https://shasaengineering.online/portal)
+🌐 **Live URL:** [https://www.shasaengineering.online](https://www.shasaengineering.online)
 
 ---
 
 ## 🏛️ Architecture Overview
 
-The platform is built on Cloudflare Pages Functions and Cloudflare Zero Trust, providing high-availability global edge delivery with zero exposed home router ports.
+The platform is deployed globally on Cloudflare Pages with Zero-Trust edge security and outbound-only mTLS tunnels, providing high availability with zero open router ports:
 
 ```
                            [ Incoming Internet Traffic ]
@@ -22,18 +21,17 @@ The platform is built on Cloudflare Pages Functions and Cloudflare Zero Trust, p
           (HTTP 403 Forbidden)                                   │
                                              ┌───────────────────┴───────────────────┐
                                              │                                       │
-                                     [ Public Portfolio ]                    [ Homelab Vault ]
-                                    shasaengineering.online               shasaengineering.online/portal
+                                     [ Public Portfolio ]                    [ Edge Infrastructure ]
+                                    shasaengineering.online                 Zero-Trust Ingress Mesh
                                              │                                       │
-                                   • Tesla Career Milestones              • Cloudflare Zero Trust OTP
-                                   • Studio5000-MCP Showcase              • Master Password Gate
-                                   • Homelab Architecture Study           • Google Authenticator (TOTP)
+                                   • Engineering Milestones               • Outbound-only mTLS Tunnel
+                                   • Studio5000-MCP Showcase              • Cloudflare Access OTP
+                                   • Homelab Architecture Study           • Multi-Factor TOTP Gate
                                                                                      │
                                                                    ┌─────────────────┴─────────────────┐
                                                                    ▼                                   ▼
-                                                          [ Personal Consoles ]               [ Family Media Hub ]
-                                                          • TrueNAS SCALE (nas.)              • Immich Photos
-                                                          • Sailor-Pi DNS (pihole.)           (photos.shasaengineering.online)
+                                                          [ Enterprise Storage ]              [ Edge Gateway Node ]
+                                                          • TrueNAS SCALE (ZFS)               • ARM64 Local DNS & Telemetry
 ```
 
 ---
@@ -41,29 +39,18 @@ The platform is built on Cloudflare Pages Functions and Cloudflare Zero Trust, p
 ## 🛡️ Multi-Layer Security Architecture
 
 1. **Perimeter Geo-Fencing:**
-   - Enforced by Cloudflare Access Group: traffic is strictly restricted to **United States (US)**, **United Kingdom (GB)**, and **India (IN)**. All other regions are dropped at the edge.
+   - Enforced by Cloudflare Access: traffic is restricted to **United States (US)**, **United Kingdom (GB)**, and **India (IN)**. All other regions are dropped at the edge.
 2. **Cloudflare Zero Trust (mTLS):**
-   - Outbound-only Argo Tunnels connect local servers (`10.0.0.3:30041`, `10.0.0.3:443`, Pi-hole cluster) without open inbound router ports.
-   - Administrative endpoints strictly require email OTP to `krusailor44@gmail.com`.
-3. **Application Layer Master Password:**
-   - Configurable via the `HOMELAB_PASSWORD` environment variable in Cloudflare Pages.
-4. **Hardware / Authenticator 2FA (RFC 6238 TOTP):**
-   - Built-in WebCrypto HMAC-SHA1 engine with 30-second time-steps and drift compensation.
-   - Compatible with Google Authenticator, Microsoft Authenticator, and Apple Keychain.
+   - Outbound-only Argo Tunnels connect local infrastructure without open inbound router ports.
+   - Administrative endpoints require multi-factor verification.
+3. **Application Layer Master Password & TOTP:**
+   - Multi-stage gate backed by WebCrypto HMAC-SHA1 RFC 6238 TOTP engine with time-step drift compensation.
 
 ---
 
 ## 🚀 Deployment & Local Development
 
 This project runs natively on Cloudflare Pages Functions using `_worker.js`.
-
-### Environment Variables
-Set these in your Cloudflare Pages dashboard under **Settings &rarr; Environment Variables**:
-
-| Variable | Description | Default / Fallback |
-| :--- | :--- | :--- |
-| `HOMELAB_PASSWORD` | Master password for the `/portal` command center | Set in Cloudflare Secrets |
-| `TOTP_SECRET` | RFC 4648 Base32 secret key for Google Authenticator | Set in Cloudflare Secrets |
 
 ### Deploy via Wrangler CLI
 ```bash
@@ -72,5 +59,6 @@ npx wrangler pages deploy . --project-name=shasa-website
 
 ---
 
-## 📜 License
-MIT License &copy; 2026 Krutarth Sailor. All rights reserved.
+## 📜 License & Disclaimer
+MIT License &copy; 2026 Krutarth Sailor. All rights reserved.  
+*Personal portfolio and independent open-source R&D. All views, architectures, and projects shown are my own.*

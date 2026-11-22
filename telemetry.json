@@ -1,0 +1,24 @@
+{
+  "node": "edge-node-01",
+  "architecture": "aarch64",
+  "status": "online",
+  "timestamp": "2026-11-22T19:00:00Z",
+  "metrics": {
+    "cpu_temp_c": 54.5,
+    "load_avg_1m": 0.08,
+    "load_avg_5m": 0.12,
+    "load_avg_15m": 0.09,
+    "ram_used_gb": 2.70,
+    "ram_total_gb": 16.0,
+    "ram_usage_percent": 16.9,
+    "disk_used_gb": 16.8,
+    "disk_total_gb": 125.3,
+    "disk_usage_percent": 13.4
+  },
+  "services": {
+    "local_dns": "active",
+    "edge_tunnel": "active",
+    "webrtc_screenshare": "active",
+    "metrics_exporter": "active"
+  }
+}
