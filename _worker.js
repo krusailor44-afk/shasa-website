@@ -1810,17 +1810,19 @@ function renderHomeHtml() {
             <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
             Connect on LinkedIn
           </a>
+          <!--email_off-->
           <div class="contact-cta-wrapper">
-            <button id="contactBtn" class="btn btn-contact" type="button" aria-label="Copy Contact Email (sailor.krutarth@yahoo.in)" onclick="copyContactEmail()">
+            <button id="contactBtn" class="btn btn-contact" type="button" aria-label="Copy Contact Email" onclick="copyContactEmail()">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
               <span id="contactBtnText">Copy Email</span>
             </button>
             <span id="contactTooltip" class="contact-tooltip">Copied: sailor.krutarth@yahoo.in</span>
           </div>
-          <a href="mailto:sailor.krutarth@yahoo.in" class="btn btn-secondary" title="Direct Email sailor.krutarth@yahoo.in">
+          <a href="mailto:sailor.krutarth@yahoo.in" class="btn btn-secondary" title="Email sailor.krutarth@yahoo.in directly">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
             Email
           </a>
+          <!--/email_off-->
           <a href="#homelab" class="btn btn-secondary">Homelab Architecture &rarr;</a>
         </div>
       </section>
