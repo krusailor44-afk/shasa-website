@@ -68,6 +68,22 @@ async function verifyTOTP(token, secretBase32) {
   return false;
 }
 
+// Rate Limiting & Lockout Engine Configuration
+const RATE_LIMIT_CONFIG = {
+  ipMaxFailures: 5,               // Max failed attempts before IP lockout
+  ipWindowMs: 15 * 60 * 1000,      // 15-minute sliding failure window
+  ipBaseLockoutMs: 15 * 60 * 1000, // 15-minute initial IP lockout (progressive backoff multiplies)
+  globalMaxFailures: 30,          // Max failures across all IPs before vault emergency lockdown
+  globalWindowMs: 60 * 60 * 1000,  // 60-minute global window
+  globalLockoutMs: 15 * 60 * 1000, // 15-minute global cooldown
+  totpReplayWindowMs: 180 * 1000   // 180-second single-use TOTP replay prevention
+};
+
+// Stateful in-memory stores (persists across warm requests on edge worker)
+const ipFailureStore = new Map();
+let globalFailureStore = { count: 0, windowStart: Date.now(), lockedUntil: 0 };
+const consumedTotpTokens = new Map();
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
@@ -80,7 +96,9 @@ export default {
       "X-Content-Type-Options": "nosniff",
       "X-Frame-Options": "DENY",
       "Referrer-Policy": "strict-origin-when-cross-origin",
-      "Permissions-Policy": "camera=(), microphone=(), geolocation=()",
+      "Permissions-Policy": "camera=(), microphone=(), geolocation=(), payment=(), usb=()",
+      "Cross-Origin-Opener-Policy": "same-origin",
+      "Cross-Origin-Resource-Policy": "same-origin",
       "Content-Security-Policy": "default-src 'self'; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://www.shasaengineering.online https://cloudflareinsights.com; base-uri 'self'; form-action 'self'; frame-ancestors 'none';"
     };
 
@@ -159,6 +177,57 @@ export default {
 
     // Handle /portal routes
     if (url.pathname === '/portal' || url.pathname.startsWith('/portal/')) {
+      const clientIP = request.headers.get("CF-Connecting-IP") || 
+                       request.headers.get("x-real-ip") || 
+                       request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || 
+                       "127.0.0.1";
+      const now = Date.now();
+
+      // Housekeeping: clean expired TOTP replay entries
+      for (const [code, ts] of consumedTotpTokens.entries()) {
+        if (now - ts > RATE_LIMIT_CONFIG.totpReplayWindowMs) {
+          consumedTotpTokens.delete(code);
+        }
+      }
+
+      // Check Global Vault Lockout
+      if (now < globalFailureStore.lockedUntil) {
+        const retryAfter = Math.max(1, Math.ceil((globalFailureStore.lockedUntil - now) / 1000));
+        console.warn(JSON.stringify({
+          event: "VAULT_GLOBAL_LOCKOUT_ENFORCED",
+          clientIP,
+          retryAfter,
+          timestamp: new Date().toISOString()
+        }));
+        return new Response(renderLockoutHtml(retryAfter, "Global Vault Emergency Cooldown", "Vault-wide rate limit exceeded due to distributed failed attempts. All access is temporarily locked.", clientIP), {
+          status: 429,
+          headers: {
+            "Retry-After": String(retryAfter),
+            ...noCacheHeaders
+          }
+        });
+      }
+
+      // Check IP-Specific Lockout
+      let ipRecord = ipFailureStore.get(clientIP);
+      if (ipRecord && now < ipRecord.lockedUntil) {
+        const retryAfter = Math.max(1, Math.ceil((ipRecord.lockedUntil - now) / 1000));
+        console.warn(JSON.stringify({
+          event: "VAULT_IP_LOCKOUT_ENFORCED",
+          clientIP,
+          failures: ipRecord.count,
+          retryAfter,
+          timestamp: new Date().toISOString()
+        }));
+        return new Response(renderLockoutHtml(retryAfter, "Client IP Security Lockout", `Multiple failed authentication attempts detected from IP ${clientIP}. Please wait for the lockout window to expire.`, clientIP), {
+          status: 429,
+          headers: {
+            "Retry-After": String(retryAfter),
+            ...noCacheHeaders
+          }
+        });
+      }
+
       const cookieHeader = request.headers.get("Cookie") || "";
       const isAuthenticated = cookieHeader.includes("homelab_session=valid_auth");
 
@@ -166,13 +235,30 @@ export default {
       if (request.method === "POST") {
         try {
           const formData = await request.formData();
-          const submittedPass = formData.get("password") || "";
-          const submittedTotp = formData.get("totp") || "";
+          const submittedPass = (formData.get("password") || "").trim();
+          const submittedTotp = (formData.get("totp") || "").trim().replace(/\s+/g, '');
+
+          // Check if TOTP code was already consumed (single-use replay suppression)
+          const isReplay = submittedTotp && consumedTotpTokens.has(submittedTotp);
+          let isTotpValid = false;
+
+          if (!isReplay) {
+            isTotpValid = await verifyTOTP(submittedTotp, TOTP_SECRET);
+          }
 
           const isPasswordValid = submittedPass === MASTER_PASSWORD;
-          const isTotpValid = await verifyTOTP(submittedTotp, TOTP_SECRET);
 
-          if (isPasswordValid && isTotpValid) {
+          if (isPasswordValid && isTotpValid && !isReplay) {
+            // Authentication SUCCESS
+            consumedTotpTokens.set(submittedTotp, now);
+            ipFailureStore.delete(clientIP);
+
+            console.info(JSON.stringify({
+              event: "VAULT_AUTH_SUCCESS",
+              clientIP,
+              timestamp: new Date().toISOString()
+            }));
+
             return new Response("", {
               status: 302,
               headers: {
@@ -181,20 +267,96 @@ export default {
                 ...noCacheHeaders
               }
             });
-          } else if (!isPasswordValid && !isTotpValid) {
-            return new Response(renderPasswordGateHtml("Incorrect master password and 2FA code. Please try again."), {
-              headers: noCacheHeaders
-            });
-          } else if (!isPasswordValid) {
-            return new Response(renderPasswordGateHtml("Incorrect master password. Please try again."), {
-              headers: noCacheHeaders
-            });
+          }
+
+          // Authentication FAILURE: Record in state stores
+          if (!ipRecord || (now - ipRecord.windowStart > RATE_LIMIT_CONFIG.ipWindowMs)) {
+            ipRecord = { count: 1, windowStart: now, lockedUntil: 0, backoffLevel: 1 };
           } else {
-            return new Response(renderPasswordGateHtml("Invalid 2FA authenticator code. Check your authenticator app and try again."), {
-              headers: noCacheHeaders
+            ipRecord.count++;
+          }
+
+          if (now - globalFailureStore.windowStart > RATE_LIMIT_CONFIG.globalWindowMs) {
+            globalFailureStore = { count: 1, windowStart: now, lockedUntil: 0 };
+          } else {
+            globalFailureStore.count++;
+          }
+
+          console.warn(JSON.stringify({
+            event: "VAULT_AUTH_FAILURE",
+            clientIP,
+            ipFailures: ipRecord.count,
+            globalFailures: globalFailureStore.count,
+            replayedTotp: isReplay,
+            timestamp: new Date().toISOString()
+          }));
+
+          // Trigger Global Lockout if threshold reached (30 failures / 60 min)
+          if (globalFailureStore.count >= RATE_LIMIT_CONFIG.globalMaxFailures) {
+            globalFailureStore.lockedUntil = now + RATE_LIMIT_CONFIG.globalLockoutMs;
+            const retryAfter = Math.ceil(RATE_LIMIT_CONFIG.globalLockoutMs / 1000);
+            console.error(JSON.stringify({
+              event: "VAULT_GLOBAL_LOCKOUT_TRIGGERED",
+              clientIP,
+              totalFailures: globalFailureStore.count,
+              retryAfter,
+              timestamp: new Date().toISOString()
+            }));
+            return new Response(renderLockoutHtml(retryAfter, "Global Vault Emergency Cooldown", "Emergency vault lockout engaged due to high-volume distributed attack attempts.", clientIP), {
+              status: 429,
+              headers: {
+                "Retry-After": String(retryAfter),
+                ...noCacheHeaders
+              }
             });
           }
+
+          // Trigger IP Lockout if threshold reached (>= 5 failures)
+          if (ipRecord.count >= RATE_LIMIT_CONFIG.ipMaxFailures) {
+            const lockoutDuration = RATE_LIMIT_CONFIG.ipBaseLockoutMs * Math.min(ipRecord.backoffLevel, 4);
+            ipRecord.lockedUntil = now + lockoutDuration;
+            ipRecord.backoffLevel++;
+            ipFailureStore.set(clientIP, ipRecord);
+
+            const retryAfter = Math.ceil(lockoutDuration / 1000);
+            console.error(JSON.stringify({
+              event: "VAULT_IP_LOCKOUT_TRIGGERED",
+              clientIP,
+              ipFailures: ipRecord.count,
+              retryAfter,
+              timestamp: new Date().toISOString()
+            }));
+            return new Response(renderLockoutHtml(retryAfter, "Client IP Security Lockout", `5 consecutive failed authentication attempts detected from IP ${clientIP}. Lockout engaged for ${Math.round(retryAfter / 60)} minutes.`, clientIP), {
+              status: 429,
+              headers: {
+                "Retry-After": String(retryAfter),
+                ...noCacheHeaders
+              }
+            });
+          }
+
+          ipFailureStore.set(clientIP, ipRecord);
+
+          // Build descriptive error message with attempt counter
+          const remaining = RATE_LIMIT_CONFIG.ipMaxFailures - ipRecord.count;
+          const remainingMsg = ` (Attempt ${ipRecord.count} of ${RATE_LIMIT_CONFIG.ipMaxFailures}. ${remaining} attempt${remaining === 1 ? '' : 's'} remaining before 15-minute IP lockout)`;
+
+          let failureReason = "Incorrect master password and 2FA code.";
+          if (isReplay) {
+            failureReason = "This 2FA authenticator code was already used or replayed. Please wait for the next 30-second token.";
+          } else if (!isPasswordValid && !isTotpValid) {
+            failureReason = "Incorrect master password and 2FA code.";
+          } else if (!isPasswordValid) {
+            failureReason = "Incorrect master password.";
+          } else {
+            failureReason = "Invalid 2FA authenticator code. Check your authenticator app and try again.";
+          }
+
+          return new Response(renderPasswordGateHtml(failureReason + remainingMsg), {
+            headers: noCacheHeaders
+          });
         } catch (e) {
+          console.error("Auth form parsing error:", e);
           return new Response(renderPasswordGateHtml("Authentication error. Please try again."), {
             headers: noCacheHeaders
           });
@@ -232,6 +394,197 @@ export default {
   }
 };
 
+function renderLockoutHtml(retryAfterSec, title = "Security Lockout Active", description = "Too many failed authentication attempts. Access is temporarily suspended.", clientIp = "") {
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>429 Too Many Requests | Homelab Vault</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #06090e;
+      --card-bg: rgba(18, 12, 16, 0.94);
+      --border: rgba(239, 68, 68, 0.25);
+      --danger: #ef4444;
+      --danger-glow: rgba(239, 68, 68, 0.35);
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      background-image:
+        radial-gradient(circle at 50% 20%, rgba(239, 68, 68, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(220, 38, 38, 0.08) 0%, transparent 40%);
+    }
+    .lockout-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2.5rem 2.25rem;
+      max-width: 480px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.8), 0 0 30px rgba(239, 68, 68, 0.15);
+      backdrop-filter: blur(16px);
+      position: relative;
+    }
+    .lockout-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #ef4444, #f97316, #dc2626);
+      border-radius: 16px 16px 0 0;
+    }
+    .shield-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 16px;
+      background: rgba(239, 68, 68, 0.12);
+      border: 1px solid rgba(239, 68, 68, 0.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      margin: 0 auto 1.25rem;
+      box-shadow: 0 0 25px var(--danger-glow);
+    }
+    .status-badge {
+      display: inline-block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      background: rgba(239, 68, 68, 0.2);
+      color: #fca5a5;
+      border: 1px solid rgba(239, 68, 68, 0.4);
+      margin-bottom: 1rem;
+      letter-spacing: 0.05em;
+    }
+    h1 {
+      font-size: 1.5rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.5rem;
+      color: #fff;
+    }
+    p {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+    }
+    .timer-box {
+      background: rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 1.25rem 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .timer-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #94a3b8;
+      font-family: 'JetBrains Mono', monospace;
+      margin-bottom: 0.4rem;
+    }
+    .timer-value {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 2rem;
+      font-weight: 700;
+      color: #ef4444;
+      text-shadow: 0 0 12px rgba(239, 68, 68, 0.4);
+    }
+    .audit-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      color: #64748b;
+      background: rgba(0, 0, 0, 0.25);
+      padding: 0.75rem;
+      border-radius: 8px;
+      margin-bottom: 1.5rem;
+      text-align: left;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      padding: 0.8rem 1rem;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-decoration: none;
+      color: #cbd5e1;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      transition: all 0.2s;
+    }
+    .btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+  <div class="lockout-card">
+    <div class="shield-icon">🛡️</div>
+    <div class="status-badge">HTTP 429 • RATE LIMIT EXCEEDED</div>
+    <h1>${title}</h1>
+    <p>${description}</p>
+    <div class="timer-box">
+      <div class="timer-label">Cooldown Remaining</div>
+      <div class="timer-value" id="countdown">--:--</div>
+    </div>
+    <div class="audit-grid">
+      <div>IP: <span>${clientIp || "Active Client"}</span></div>
+      <div>STATUS: <span style="color:#ef4444">LOCKED</span></div>
+      <div>GATE: <span>HOMELAB-2FA</span></div>
+      <div>ACTION: <span>RETRY-AFTER</span></div>
+    </div>
+    <a href="/" class="btn">← Return to Portfolio</a>
+  </div>
+  <script>
+    (function() {
+      let seconds = ${retryAfterSec};
+      const countdownEl = document.getElementById('countdown');
+      function updateTimer() {
+        if (seconds <= 0) {
+          countdownEl.textContent = "00:00 - UNLOCKED";
+          countdownEl.style.color = "#10b981";
+          setTimeout(() => { window.location.href = '/portal'; }, 1000);
+          return;
+        }
+        const m = Math.floor(seconds / 60);
+        const s = seconds % 60;
+        countdownEl.textContent = String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
+        seconds--;
+        setTimeout(updateTimer, 1000);
+      }
+      updateTimer();
+    })();
+  </script>
+</body>
+</html>`;
+}
 
 function renderPasswordGateHtml(errorMessage = "") {
   const errorBanner = errorMessage ? ('<div class="error-msg">⚠️ ' + errorMessage + '</div>') : '';

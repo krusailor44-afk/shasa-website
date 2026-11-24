@@ -57,6 +57,14 @@ This project runs natively on Cloudflare Pages Functions using `_worker.js`.
 npx wrangler pages deploy . --project-name=shasa-website
 ```
 
+### Run Penetration & Hardening Verification
+```bash
+chmod +x scripts/verify-hardening.sh
+./scripts/verify-hardening.sh
+```
+
+See [DEPLOYMENT_HARDENING.md](file:///C:/Users/Krutarth%20Sailor/.gemini/antigravity/scratch/shasa-website/DEPLOYMENT_HARDENING.md) for full Cloudflare WAF, Transform Rules, and TrueNAS Access configuration.
+
 ---
 
 ## 📜 License & Disclaimer
