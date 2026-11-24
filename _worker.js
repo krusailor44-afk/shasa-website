@@ -148,16 +148,16 @@ export default {
         "status": "online",
         "timestamp": new Date().toISOString(),
         "metrics": {
-          "cpu_temp_c": 54.5,
-          "load_avg_1m": 0.08,
-          "load_avg_5m": 0.12,
-          "load_avg_15m": 0.09,
-          "ram_used_gb": 2.70,
+          "cpu_temp_c": 48.0,
+          "load_avg_1m": 0.14,
+          "load_avg_5m": 0.35,
+          "load_avg_15m": 0.43,
+          "ram_used_gb": 1.41,
           "ram_total_gb": 16.0,
-          "ram_usage_percent": 16.9,
-          "disk_used_gb": 16.8,
+          "ram_usage_percent": 8.8,
+          "disk_used_gb": 16.9,
           "disk_total_gb": 125.3,
-          "disk_usage_percent": 13.4
+          "disk_usage_percent": 13.5
         },
         "services": {
           "local_dns": "active",
@@ -2958,8 +2958,8 @@ mcp = FastMCP(<span class="str">"Studio5000-Live-MCP"</span>)
             </div>
             <div class="pi5-spec-list">
               <div><strong>Total Capacity:</strong> 16.0 GB (17,005 MB)</div>
-              <div><strong>Active Memory:</strong> 2.70 GB (16.9% in-use)</div>
-              <div><strong>Page Cache / Free:</strong> 14.30 GB Buffer</div>
+              <div><strong>Active Memory:</strong> 1.41 GB (8.8% in-use)</div>
+              <div><strong>Page Cache / Free:</strong> 14.59 GB Buffer</div>
               <div><strong>Memory Bus Width:</strong> 32-bit Dual-Channel</div>
             </div>
           </div>
@@ -2977,8 +2977,8 @@ mcp = FastMCP(<span class="str">"Studio5000-Live-MCP"</span>)
             </div>
             <div class="pi5-spec-list">
               <div><strong>Total Disk Space:</strong> 125.3 GB Block Capacity</div>
-              <div><strong>Disk Allocated:</strong> 16.8 GB (13.4% in-use)</div>
-              <div><strong>Free Storage:</strong> 108.5 GB Available</div>
+              <div><strong>Disk Allocated:</strong> 16.9 GB (13.5% in-use)</div>
+              <div><strong>Free Storage:</strong> 108.4 GB Available</div>
               <div><strong>Filesystem:</strong> ext4 (POSIX Journaled)</div>
             </div>
           </div>
@@ -3035,28 +3035,28 @@ mcp = FastMCP(<span class="str">"Studio5000-Live-MCP"</span>)
                   <td><code>SoC Thermals</code></td>
                   <td>Active Cooler Heatsink</td>
                   <td>Package Temperature (Dynamic PWM Regulation)</td>
-                  <td><code>54.5°C</code></td>
+                  <td><code>48.0°C</code></td>
                   <td><span class="pi5-status-tag optimal">● Optimal</span></td>
                 </tr>
                 <tr>
                   <td><code>Scheduler Load</code></td>
                   <td>Kernel Task Queue</td>
                   <td>1-Min, 5-Min, 15-Min Exponential Moving Average</td>
-                  <td><code>0.08, 0.35, 0.43</code></td>
+                  <td><code>0.14, 0.35, 0.43</code></td>
                   <td><span class="pi5-status-tag optimal">● Low Saturation</span></td>
                 </tr>
                 <tr>
                   <td><code>RAM Utilization</code></td>
                   <td>LPDDR4X-4267 Matrix</td>
                   <td>Total 16,384 MB (Allocated vs Page Cache Buffer)</td>
-                  <td><code>2.70 GB / 16.0 GB (16.9%)</code></td>
-                  <td><span class="pi5-status-tag optimal">● 84.1% Headroom</span></td>
+                  <td><code>1.41 GB / 16.0 GB (8.8%)</code></td>
+                  <td><span class="pi5-status-tag optimal">● 91.2% Headroom</span></td>
                 </tr>
                 <tr>
                   <td><code>NVMe Storage</code></td>
                   <td>PCIe Storage Array</td>
                   <td>Root Block Device Allocation (ext4 Journaling)</td>
-                  <td><code>16.8 GB / 125.3 GB (13.4%)</code></td>
+                  <td><code>16.9 GB / 125.3 GB (13.5%)</code></td>
                   <td><span class="pi5-status-tag optimal">● Healthy</span></td>
                 </tr>
                 <tr>
@@ -3730,6 +3730,34 @@ function renderPortalHtml() {
     .grafana-stat-card.cyan::before { background: #38bdf8; }
     .grafana-stat-card.green::before { background: #34d399; }
     .grafana-stat-card.purple::before { background: #a855f7; }
+    .grafana-stat-card.amber::before { background: #f59e0b; }
+    .grafana-row-header {
+      background: rgba(255, 255, 255, 0.02);
+      border-left: 3px solid #f97316;
+      padding: 0.55rem 0.85rem;
+      border-radius: 4px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #e2e8f0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 0.75rem;
+      letter-spacing: 0.03em;
+    }
+    .grafana-row-header.cyan { border-left-color: #38bdf8; }
+    .grafana-row-header.green { border-left-color: #34d399; }
+    .grafana-row-header.purple { border-left-color: #a855f7; }
+    .grafana-row-badge {
+      font-size: 0.68rem;
+      padding: 0.15rem 0.5rem;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.06);
+      color: #94a3b8;
+      text-transform: uppercase;
+      font-weight: 500;
+    }
     .grafana-stat-title {
       font-size: 0.75rem;
       text-transform: uppercase;
@@ -4209,20 +4237,199 @@ function renderPortalHtml() {
         <div class="grafana-header-left">
           <div class="grafana-logo-badge">📊</div>
           <div class="grafana-title-wrap">
-            <h4>Homelab Cluster Observability & Telemetry</h4>
-            <span>Dashboard: <strong>Production-Cluster-Overview</strong> &bull; Engine: <strong>Prometheus TSDB (10s Scrape)</strong></span>
+            <h4>Homelab Command Center</h4>
+            <span>Dashboard: <strong>Homelab Command Center (UID: homelab-command-center)</strong> &bull; Scrape: <strong>Prometheus TSDB (5s Refresh)</strong></span>
           </div>
         </div>
         <div class="grafana-header-right">
-          <span class="grafana-status-pill"><span class="pulse-dot"></span> System Normal</span>
+          <span class="grafana-status-pill"><span class="pulse-dot"></span> All Systems Nominal</span>
           <a href="https://grafana.shasaengineering.online" target="_blank" rel="noopener" class="grafana-launch-link">
-            Open Grafana Station &rarr;
+            Launch Grafana Station &rarr;
           </a>
         </div>
       </div>
 
       <div class="grafana-body">
-        <!-- KPI Metric Cards Grid -->
+        <!-- Row 1: Executive Fleet Pulse -->
+        <div class="grafana-row-header">
+          <span>⚡ EXECUTIVE FLEET PULSE & CRITICAL HEALTH</span>
+          <span class="grafana-row-badge">High-Priority Fleet Quota</span>
+        </div>
+        <div class="grafana-kpi-grid">
+          <div class="grafana-stat-card">
+            <div class="grafana-stat-title">TrueNAS SCALE Core (10.0.0.3)</div>
+            <div class="grafana-stat-value" style="color: #38bdf8;">Online / Ready</div>
+            <div class="grafana-stat-desc">
+              <span style="color: #34d399;">● Enterprise Storage</span> &bull; ZFS Core Pool
+            </div>
+            <div class="grafana-stat-progress">
+              <div class="grafana-stat-fill" style="width: 100%; background: linear-gradient(90deg, #38bdf8, #0ea5e9);"></div>
+            </div>
+          </div>
+
+          <div class="grafana-stat-card green">
+            <div class="grafana-stat-title">Raspberry Pi 5 Core Temp</div>
+            <div class="grafana-stat-value" style="color: #34d399;">48.0°C</div>
+            <div class="grafana-stat-desc">
+              <span>BCM2712 Quad-Core</span> &bull; <span>Optimal Zone</span>
+            </div>
+            <div class="grafana-stat-progress">
+              <div class="grafana-stat-fill" style="width: 48%; background: linear-gradient(90deg, #34d399, #10b981);"></div>
+            </div>
+          </div>
+
+          <div class="grafana-stat-card purple">
+            <div class="grafana-stat-title">Tailscale Overlay Fabric</div>
+            <div class="grafana-stat-value" style="color: #c084fc;">1 Peer Active</div>
+            <div class="grafana-stat-desc">
+              <span>Encrypted WireGuard</span> &bull; <span>Point-to-Point</span>
+            </div>
+            <div class="grafana-stat-progress">
+              <div class="grafana-stat-fill" style="width: 100%; background: linear-gradient(90deg, #a855f7, #8b5cf6);"></div>
+            </div>
+          </div>
+
+          <div class="grafana-stat-card cyan">
+            <div class="grafana-stat-title">Cloudflare Zero Trust Ingress</div>
+            <div class="grafana-stat-value" style="color: #38bdf8;">Tunnel Active</div>
+            <div class="grafana-stat-desc">
+              <span>mTLS Ingress Mesh</span> &bull; <span>0 Open Ports</span>
+            </div>
+            <div class="grafana-stat-progress">
+              <div class="grafana-stat-fill" style="width: 100%; background: linear-gradient(90deg, #38bdf8, #0ea5e9);"></div>
+            </div>
+          </div>
+
+          <div class="grafana-stat-card amber">
+            <div class="grafana-stat-title">Docker Active Containers</div>
+            <div class="grafana-stat-value" style="color: #fbbf24;">2 Running</div>
+            <div class="grafana-stat-desc">
+              <span>Prometheus TSDB</span> &bull; <span>Pi-hole FTL</span>
+            </div>
+            <div class="grafana-stat-progress">
+              <div class="grafana-stat-fill" style="width: 100%; background: linear-gradient(90deg, #f59e0b, #fbbf24);"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Row 2: Pi-hole DNS, Cloudflare Argo Tunnel & WAN Strip -->
+        <div class="grafana-row-header cyan">
+          <span>🛡️ PI-HOLE DNS, CLOUDFLARE ARGO TUNNEL & WAN CONNECTIVITY</span>
+          <span class="grafana-row-badge">Edge Ingress & Filtering</span>
+        </div>
+        <div class="grafana-kpi-grid">
+          <div class="grafana-stat-card">
+            <div class="grafana-stat-title">Pi-hole Queries (24h)</div>
+            <div class="grafana-stat-value">14,820</div>
+            <div class="grafana-stat-desc">
+              <span>Sub-ms FTL Resolver</span> &bull; <span>Local DNS</span>
+            </div>
+            <div class="grafana-stat-progress">
+              <div class="grafana-stat-fill" style="width: 74%; background: linear-gradient(90deg, #38bdf8, #0ea5e9);"></div>
+            </div>
+          </div>
+
+          <div class="grafana-stat-card green">
+            <div class="grafana-stat-title">Ads & Tracking Blocked</div>
+            <div class="grafana-stat-value" style="color: #34d399;">24.5%</div>
+            <div class="grafana-stat-desc">
+              <span>3,623 Inbound Blocked</span> &bull; <span>Zero Telemetry</span>
+            </div>
+            <div class="grafana-stat-progress">
+              <div class="grafana-stat-fill" style="width: 24.5%; background: linear-gradient(90deg, #34d399, #10b981);"></div>
+            </div>
+          </div>
+
+          <div class="grafana-stat-card">
+            <div class="grafana-stat-title">FTL DNS Resolution Latency</div>
+            <div class="grafana-stat-value">1.8 ms</div>
+            <div class="grafana-stat-desc">
+              <span>In-Memory RAM Cache</span> &bull; <span>Ultra-Low Jitter</span>
+            </div>
+            <div class="grafana-stat-progress">
+              <div class="grafana-stat-fill" style="width: 18%; background: linear-gradient(90deg, #10b981, #059669);"></div>
+            </div>
+          </div>
+
+          <div class="grafana-stat-card purple">
+            <div class="grafana-stat-title">Cloudflare Ingress Latency</div>
+            <div class="grafana-stat-value">8.4 ms</div>
+            <div class="grafana-stat-desc">
+              <span>Argo mTLS Edge Hub</span> &bull; <span>Encrypted Tunnel</span>
+            </div>
+            <div class="grafana-stat-progress">
+              <div class="grafana-stat-fill" style="width: 28%; background: linear-gradient(90deg, #a855f7, #8b5cf6);"></div>
+            </div>
+          </div>
+
+          <div class="grafana-stat-card">
+            <div class="grafana-stat-title">WAN Ping & Packet Loss</div>
+            <div class="grafana-stat-value" style="color: #34d399;">12.0 ms</div>
+            <div class="grafana-stat-desc">
+              <span>0.0% Loss to 1.1.1.1</span> &bull; <span>Gateway Link Nominal</span>
+            </div>
+            <div class="grafana-stat-progress">
+              <div class="grafana-stat-fill" style="width: 20%; background: linear-gradient(90deg, #34d399, #10b981);"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Row 3: Primary Workstation (Core Ultra 7 / Z890) & Gen 5 Storage -->
+        <div class="grafana-row-header green">
+          <span>🖥️ PRIMARY WORKSTATION: INTEL CORE ULTRA 7 270K+ & GIGABYTE Z890</span>
+          <span class="grafana-row-badge">High-Performance Compute</span>
+        </div>
+        <div class="grafana-kpi-grid">
+          <div class="grafana-stat-card">
+            <div class="grafana-stat-title">Motherboard VRM / PCH</div>
+            <div class="grafana-stat-value">34.6°C</div>
+            <div class="grafana-stat-desc">
+              <span>Gigabyte Z890 Chipset</span> &bull; <span>Fan: 860 RPM</span>
+            </div>
+            <div class="grafana-stat-progress">
+              <div class="grafana-stat-fill" style="width: 34.6%; background: linear-gradient(90deg, #34d399, #10b981);"></div>
+            </div>
+          </div>
+
+          <div class="grafana-stat-card cyan">
+            <div class="grafana-stat-title">CPU Package Thermals</div>
+            <div class="grafana-stat-value">41.4°C</div>
+            <div class="grafana-stat-desc">
+              <span>Clock: 3,700 MHz</span> &bull; <span>Load: 5.0%</span>
+            </div>
+            <div class="grafana-stat-progress">
+              <div class="grafana-stat-fill" style="width: 41.4%; background: linear-gradient(90deg, #38bdf8, #0ea5e9);"></div>
+            </div>
+          </div>
+
+          <div class="grafana-stat-card">
+            <div class="grafana-stat-title">Samsung 9100 PRO 2TB</div>
+            <div class="grafana-stat-value">43.1°C</div>
+            <div class="grafana-stat-desc">
+              <span style="color: #f97316;">PCIe Gen 5 x4</span> &bull; <span>14.2 GB/s Read Capable</span>
+            </div>
+            <div class="grafana-stat-progress">
+              <div class="grafana-stat-fill" style="width: 43.1%; background: linear-gradient(90deg, #f97316, #fb923c);"></div>
+            </div>
+          </div>
+
+          <div class="grafana-stat-card purple">
+            <div class="grafana-stat-title">WD_BLACK SN850X 1TB</div>
+            <div class="grafana-stat-value">39.1°C</div>
+            <div class="grafana-stat-desc">
+              <span style="color: #a855f7;">PCIe Gen 4 x4</span> &bull; <span>7.3 GB/s Read Capable</span>
+            </div>
+            <div class="grafana-stat-progress">
+              <div class="grafana-stat-fill" style="width: 39.1%; background: linear-gradient(90deg, #a855f7, #8b5cf6);"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Row 4: TrueNAS SCALE Enterprise Storage -->
+        <div class="grafana-row-header purple">
+          <span>🗄️ TRUENAS SCALE ENTERPRISE STORAGE (10.0.0.3) & ZFS MATRIX</span>
+          <span class="grafana-row-badge">ZFS Mirrored Pool</span>
+        </div>
         <div class="grafana-kpi-grid">
           <div class="grafana-stat-card">
             <div class="grafana-stat-title">ZFS Primary Pool (ParentDrive)</div>
@@ -4236,60 +4443,50 @@ function renderPortalHtml() {
           </div>
 
           <div class="grafana-stat-card cyan">
-            <div class="grafana-stat-title">NVMe Container Pool (Apps)</div>
-            <div class="grafana-stat-value">54.3 GB <span style="font-size: 0.85rem; color: #94a3b8; font-weight: normal;">/ 256 GB</span></div>
+            <div class="grafana-stat-title">ZFS In-Memory ARC Cache</div>
+            <div class="grafana-stat-value" style="color: #38bdf8;">98.4%</div>
             <div class="grafana-stat-desc">
-              <span style="color: #34d399;">● Healthy</span> &bull; High-IOPS SSD Storage
+              <span>RAM Cache Hit Ratio</span> &bull; <span>Sub-ms Pool Reads</span>
             </div>
             <div class="grafana-stat-progress">
-              <div class="grafana-stat-fill" style="width: 21.4%; background: linear-gradient(90deg, #38bdf8, #0ea5e9);"></div>
+              <div class="grafana-stat-fill" style="width: 98.4%; background: linear-gradient(90deg, #38bdf8, #0ea5e9);"></div>
             </div>
           </div>
 
           <div class="grafana-stat-card green">
-            <div class="grafana-stat-title">Sailor-Pi Core Thermals</div>
-            <div class="grafana-stat-value" style="color: #34d399;">54.5°C</div>
+            <div class="grafana-stat-title">Drive SMART Health Matrix</div>
+            <div class="grafana-stat-value" style="color: #34d399;">100% Passing</div>
             <div class="grafana-stat-desc">
-              <span>Load: 0.08, 0.35, 0.43</span> &bull; <span>Optimal Zone</span>
+              <span>All Disks Nominal</span> &bull; <span>Thermals: 32°C - 36°C</span>
             </div>
             <div class="grafana-stat-progress">
-              <div class="grafana-stat-fill" style="width: 54.5%; background: linear-gradient(90deg, #34d399, #10b981);"></div>
-            </div>
-          </div>
-
-          <div class="grafana-stat-card purple">
-            <div class="grafana-stat-title">ARM64 Memory Utilization</div>
-            <div class="grafana-stat-value">2.70 GB <span style="font-size: 0.85rem; color: #94a3b8; font-weight: normal;">/ 16.0 GB</span></div>
-            <div class="grafana-stat-desc">
-              <span>16.9% In-Use</span> &bull; <span>13.3 GB Free / Cache</span>
-            </div>
-            <div class="grafana-stat-progress">
-              <div class="grafana-stat-fill" style="width: 16.9%; background: linear-gradient(90deg, #a855f7, #8b5cf6);"></div>
+              <div class="grafana-stat-fill" style="width: 100%; background: linear-gradient(90deg, #34d399, #10b981);"></div>
             </div>
           </div>
         </div>
 
-        <!-- Time Series & Services Breakdown -->
+        <!-- Row 5: 24-Hour Multi-Vector Telemetry & Thermal History + Daemons -->
         <div class="grafana-charts-grid">
           <div class="grafana-chart-panel">
             <div class="grafana-panel-header">
               <div class="grafana-panel-title">
-                <span>📈 24-Hour Telemetry History & Thermal Curve</span>
+                <span>📈 24-Hour Telemetry History & Multi-Thermal Curve</span>
               </div>
               <div class="grafana-panel-legend">
-                <div class="legend-item"><span class="legend-dot" style="background: #f97316;"></span> SoC Temp (°C)</div>
-                <div class="legend-item"><span class="legend-dot" style="background: #38bdf8;"></span> CPU Load (%)</div>
-                <div class="legend-item"><span class="legend-dot" style="background: #34d399;"></span> ZFS ARC Hit (%)</div>
+                <div class="legend-item"><span class="legend-dot" style="background: #38bdf8;"></span> Workstation CPU (41°C)</div>
+                <div class="legend-item"><span class="legend-dot" style="background: #f97316;"></span> Pi 5 SoC (48°C)</div>
+                <div class="legend-item"><span class="legend-dot" style="background: #a855f7;"></span> Gen 5 NVMe (43°C)</div>
+                <div class="legend-item"><span class="legend-dot" style="background: #34d399;"></span> ZFS ARC (98%)</div>
               </div>
             </div>
             <svg class="grafana-svg-chart" viewBox="0 0 680 180" fill="none" xmlns="http://www.w3.org/2000/svg">
               <defs>
-                <linearGradient id="tempGrad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stop-color="#f97316" stop-opacity="0.35"/>
+                <linearGradient id="piTempGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#f97316" stop-opacity="0.3"/>
                   <stop offset="100%" stop-color="#f97316" stop-opacity="0.0"/>
                 </linearGradient>
-                <linearGradient id="loadGrad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.3"/>
+                <linearGradient id="cpuTempGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.25"/>
                   <stop offset="100%" stop-color="#38bdf8" stop-opacity="0.0"/>
                 </linearGradient>
               </defs>
@@ -4306,13 +4503,16 @@ function renderPortalHtml() {
               <!-- ZFS ARC Hit Area (Green 98%) -->
               <path d="M50 35 L150 36 L250 34 L350 35 L450 36 L550 34 L650 35" stroke="#34d399" stroke-width="2" fill="none"/>
 
-              <!-- Temp Area (Orange ~54C) -->
-              <path d="M50 102 C100 104, 130 98, 180 100 C230 102, 280 95, 330 96 C380 97, 430 103, 480 101 C530 99, 580 97, 650 99 L650 150 L50 150 Z" fill="url(#tempGrad)"/>
-              <path d="M50 102 C100 104, 130 98, 180 100 C230 102, 280 95, 330 96 C380 97, 430 103, 480 101 C530 99, 580 97, 650 99" stroke="#f97316" stroke-width="2.5" fill="none"/>
+              <!-- Pi 5 Temp (Orange ~48C) -->
+              <path d="M50 114 C100 115, 130 112, 180 114 C230 116, 280 110, 330 112 C380 113, 430 116, 480 114 C530 112, 580 113, 650 114 L650 150 L50 150 Z" fill="url(#piTempGrad)"/>
+              <path d="M50 114 C100 115, 130 112, 180 114 C230 116, 280 110, 330 112 C380 113, 430 116, 480 114 C530 112, 580 113, 650 114" stroke="#f97316" stroke-width="2" fill="none"/>
 
-              <!-- CPU Load Area (Cyan 10-25%) -->
-              <path d="M50 142 C90 140, 120 132, 160 135 C200 138, 240 120, 280 125 C320 130, 360 144, 400 139 C450 134, 500 128, 550 136 C600 144, 630 141, 650 140 L650 150 L50 150 Z" fill="url(#loadGrad)"/>
-              <path d="M50 142 C90 140, 120 132, 160 135 C200 138, 240 120, 280 125 C320 130, 360 144, 400 139 C450 134, 500 128, 550 136 C600 144, 630 141, 650 140" stroke="#38bdf8" stroke-width="2" fill="none"/>
+              <!-- Workstation CPU Package Temp (Cyan ~41C) -->
+              <path d="M50 124 C90 122, 120 126, 160 123 C200 125, 240 121, 280 122 C320 124, 360 122, 400 123 C450 121, 500 125, 550 122 C600 124, 630 123, 650 123 L650 150 L50 150 Z" fill="url(#cpuTempGrad)"/>
+              <path d="M50 124 C90 122, 120 126, 160 123 C200 125, 240 121, 280 122 C320 124, 360 122, 400 123 C450 121, 500 125, 550 122 C600 124, 630 123, 650 123" stroke="#38bdf8" stroke-width="2" fill="none"/>
+
+              <!-- Gen 5 NVMe Temp (Purple ~43C) -->
+              <path d="M50 120 C100 119, 170 122, 240 120 C310 121, 380 118, 450 120 C520 122, 590 119, 650 120" stroke="#a855f7" stroke-width="1.8" stroke-dasharray="4 2" fill="none"/>
 
               <text x="50" y="168" fill="#64748b" font-size="10" font-family="'JetBrains Mono', monospace">00:00</text>
               <text x="170" y="168" fill="#64748b" font-size="10" font-family="'JetBrains Mono', monospace">04:00</text>
@@ -4326,29 +4526,33 @@ function renderPortalHtml() {
           <div class="grafana-chart-panel">
             <div class="grafana-panel-header">
               <div class="grafana-panel-title">
-                <span>⚡ Monitored Daemons & Targets</span>
+                <span>⚡ Active Monitored Daemons</span>
               </div>
             </div>
             <div class="grafana-service-list">
               <div class="grafana-service-row">
-                <div class="grafana-service-name"><span>●</span> Pi-hole FTL DNS</div>
-                <span style="color: #34d399; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem;">Active</span>
+                <div class="grafana-service-name"><span>●</span> Pi-hole FTL DNS Engine</div>
+                <span style="color: #34d399; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem;">Active (Port 53)</span>
               </div>
               <div class="grafana-service-row">
-                <div class="grafana-service-name"><span>●</span> TrueNAS SCALE Hypervisor</div>
+                <div class="grafana-service-name"><span>●</span> TrueNAS SCALE Storage</div>
                 <span style="color: #34d399; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem;">Online</span>
               </div>
               <div class="grafana-service-row">
-                <div class="grafana-service-name"><span>●</span> Immich ML Neural Core</div>
-                <span style="color: #34d399; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem;">Running</span>
+                <div class="grafana-service-name"><span>●</span> Prometheus TSDB</div>
+                <span style="color: #34d399; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem;">5s Polling Active</span>
               </div>
               <div class="grafana-service-row">
-                <div class="grafana-service-name"><span>●</span> Prometheus TSDB</div>
-                <span style="color: #34d399; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem;">10s Polling</span>
+                <div class="grafana-service-name"><span>●</span> Grafana Core Platform</div>
+                <span style="color: #f97316; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem;">v13.0.2 Ready</span>
               </div>
               <div class="grafana-service-row">
                 <div class="grafana-service-name"><span>●</span> Cloudflare Argo Tunnel</div>
-                <span style="color: #38bdf8; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem;">Encrypted</span>
+                <span style="color: #38bdf8; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem;">mTLS Active</span>
+              </div>
+              <div class="grafana-service-row">
+                <div class="grafana-service-name"><span>●</span> Docker Fleet Containers</div>
+                <span style="color: #34d399; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem;">2 Running</span>
               </div>
             </div>
           </div>
